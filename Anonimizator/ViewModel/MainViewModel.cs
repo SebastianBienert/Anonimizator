@@ -1,4 +1,11 @@
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using Anonimizator.Models;
+using GalaSoft.MvvmLight.CommandWpf;
+using System.IO;
+using System;
 
 namespace Anonimizator.ViewModel
 {
@@ -16,11 +23,56 @@ namespace Anonimizator.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        public readonly string FILE_NAME = @"data.csv";
+        public ObservableCollection<Person> People { get; set; }
+        public ObservableCollection<string> ColumnNames { get; set; }
 
+        private string _selectedColumnName;
+        public string SelectedColumnName
+        {
+            get { return _selectedColumnName; }
+            set
+            {
+                _selectedColumnName = value;
+                RaisePropertyChanged("SelectedColumnName");
+            }
+        }
 
         public MainViewModel()
         {
-            
+            People = new ObservableCollection<Person>()
+            {
+                new Person()
+                {
+                    City = "Wroclaw",
+                    FirstName = "Mati",
+                    Gender = "M",
+                    Job = "Programista",
+                    Surname = "Thomas"
+                }
+            };
+            ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
+            _selectedColumnName = ColumnNames.First();
+            SaveDataCommand = new RelayCommand(SaveData);
         }
+
+        public ICommand SaveDataCommand
+        {
+            get;
+            private set;
+        }
+
+        private void SaveData()
+        {
+            using (var textWriter = File.CreateText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FILE_NAME)))
+            {
+                foreach (var line in Utils.ToCsv(People))
+                {
+                    textWriter.WriteLine(line);
+                }
+            }
+        }
+
+
     }
 }

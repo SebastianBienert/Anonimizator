@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anonimizator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
@@ -15,11 +16,21 @@
             <ColumnDefinition Width="*" ></ColumnDefinition>
             <ColumnDefinition Width="*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <DataGrid Grid.Column="0" Grid.ColumnSpan="2" ></DataGrid>
 
-        <Button Grid.Column="0" Grid.Row="1">Zapisz</Button>
-        <ComboBox Grid.Column="1" Grid.Row="1">Kolumna</ComboBox>
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding People}">
+
+        </DataGrid>
+
+        <Button Grid.Column="0" Grid.Row="1"
+                Command="{Binding SaveDataCommand}">
+            Zapisz
+        </Button>
+
+        <ComboBox Grid.Column="1" Grid.Row="1"
+                  ItemsSource="{Binding ColumnNames}"
+                  SelectedItem="{Binding SelectedColumnName}">
+        </ComboBox>
 
     </Grid>
 </Window>

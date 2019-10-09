@@ -14,8 +14,7 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
-
+using CommonServiceLocator;
 namespace Anonimizator.ViewModel
 {
     /// <summary>
@@ -45,7 +44,7 @@ namespace Anonimizator.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
-        public MainViewModel Main
+        public MainViewModel MainViewModel
         {
             get
             {
