@@ -71,10 +71,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Utils.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="AnonimizatorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -82,8 +82,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="AnonimizatorWindow.xaml.cs">
+      <DependentUpon>AnonimizatorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

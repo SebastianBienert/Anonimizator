@@ -6,6 +6,7 @@ using Anonimizator.Models;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.IO;
 using System;
+using Microsoft.Win32;
 
 namespace Anonimizator.ViewModel
 {
@@ -21,9 +22,10 @@ namespace Anonimizator.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class AnonimizatorViewModel : ViewModelBase
     {
-        public readonly string FILE_NAME = @"data.csv";
+        public readonly string DEFAULT_FILE_NAME = @"data.csv";
+        public readonly string FILE_WITH_DATA = @"data.csv";
 
         private ObservableCollection<Person> _people;
         public ObservableCollection<Person> People
@@ -49,7 +51,7 @@ namespace Anonimizator.ViewModel
             }
         }
 
-        public MainViewModel()
+        public AnonimizatorViewModel()
         {
             People = new ObservableCollection<Person>()
             {
@@ -62,6 +64,7 @@ namespace Anonimizator.ViewModel
                     Surname = "Thomas"
                 }
             };
+            ReadData();
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = ColumnNames.First();
             SaveDataCommand = new RelayCommand(SaveData);
@@ -82,11 +85,26 @@ namespace Anonimizator.ViewModel
 
         private void SaveData()
         {
-            using (var textWriter = File.CreateText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FILE_NAME)))
+            var pathDataFile = SelectFileToSaveData();
+            using (var textWriter = File.CreateText(pathDataFile))
             {
                 foreach (var line in Utils.ToCsv(People))
                 {
                     textWriter.WriteLine(line);
+                }
+            }
+        }
+
+        private void ReadData()
+        {
+            People = new ObservableCollection<Person>();
+            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, FILE_WITH_DATA)))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var person = Utils.PersonFromCsv(line);
+                    People.Add(person);
                 }
             }
         }
@@ -101,8 +119,19 @@ namespace Anonimizator.ViewModel
             }));
         }
 
-        
+        private string SelectFileToSaveData()
+        {
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
+            };
+            if (sfd.ShowDialog() == true)
+            { 
+                return sfd.FileName;
+            }
 
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DEFAULT_FILE_NAME);
+        }
 
     }
 }

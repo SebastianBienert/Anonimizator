@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Anonimizator.Models;
 
 namespace Anonimizator
 {
@@ -15,11 +18,26 @@ namespace Anonimizator
 
             foreach (var @object in list)
             {
-                yield return string.Join(",",
+                yield return string.Join(";",
                     fields.Select(x => (x.GetValue(@object) ?? string.Empty).ToString())
                         .Concat(properties.Select(p => (p.GetValue(@object, null) ?? string.Empty).ToString()))
                         .ToArray());
             }
+        }
+
+        public static Person PersonFromCsv(string line)
+        {
+            var values = line.Split(';');
+            var person = new Person()
+            {
+                Gender = values[0],
+                Job = values[1],
+                City = values[2],
+                FirstName = values[3],
+                Surname = values[4]
+            };
+
+            return person;
         }
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Anonimizator
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AnonimizatorWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AnonimizatorWindow : Window
     {
-        public MainWindow()
+        public AnonimizatorWindow()
         {
             InitializeComponent();
         }

@@ -41,14 +41,14 @@ namespace Anonimizator.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<AnonimizatorViewModel>();
         }
 
-        public MainViewModel MainViewModel
+        public AnonimizatorViewModel AnonimizatorViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<AnonimizatorViewModel>();
             }
         }
         

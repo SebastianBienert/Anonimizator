@@ -18,7 +18,5 @@ namespace Anonimizator.Models
 
         public string Surname { get; set; }
 
-
-
     }
 }
