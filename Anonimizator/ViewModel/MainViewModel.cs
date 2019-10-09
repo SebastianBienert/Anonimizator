@@ -24,7 +24,18 @@ namespace Anonimizator.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public readonly string FILE_NAME = @"data.csv";
-        public ObservableCollection<Person> People { get; set; }
+
+        private ObservableCollection<Person> _people;
+        public ObservableCollection<Person> People
+        {
+            get { return _people;}
+            set
+            {
+                _people = value;
+                RaisePropertyChanged("People");
+            }
+        }
+
         public ObservableCollection<string> ColumnNames { get; set; }
 
         private string _selectedColumnName;
@@ -54,9 +65,16 @@ namespace Anonimizator.ViewModel
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = ColumnNames.First();
             SaveDataCommand = new RelayCommand(SaveData);
+            AnonymizeColumnCommand = new RelayCommand(AnonymzeColumn);
         }
 
         public ICommand SaveDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand AnonymizeColumnCommand
         {
             get;
             private set;
@@ -72,6 +90,18 @@ namespace Anonimizator.ViewModel
                 }
             }
         }
+
+        private void AnonymzeColumn()
+        {
+            //Not effecient, but it works
+            People = new ObservableCollection<Person>(People.Select(p =>
+            {
+                p.GetType().GetProperty(SelectedColumnName).SetValue(p, "*");
+                return p;
+            }));
+        }
+
+        
 
 
     }

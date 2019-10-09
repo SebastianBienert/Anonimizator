@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" ></ColumnDefinition>
@@ -18,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <DataGrid Grid.Column="0" Grid.ColumnSpan="2"
-                  ItemsSource="{Binding People}">
+                  ItemsSource="{Binding People, Mode=OneWay}">
 
         </DataGrid>
 
@@ -31,6 +32,11 @@
                   ItemsSource="{Binding ColumnNames}"
                   SelectedItem="{Binding SelectedColumnName}">
         </ComboBox>
+
+        <Button Grid.Column="0" Grid.Row="2"
+                Command="{Binding AnonymizeColumnCommand}">
+            Anonimizuj kolumne
+        </Button>
 
     </Grid>
 </Window>
