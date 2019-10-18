@@ -34,7 +34,8 @@ namespace Anonimizator
                 Job = values[1],
                 City = values[2],
                 FirstName = values[3],
-                Surname = values[4]
+                Surname = values[4],
+                Age = values[5]
             };
 
             return person;

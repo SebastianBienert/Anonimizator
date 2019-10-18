@@ -42,6 +42,8 @@ namespace Anonimizator.ViewModel
             ////}
 
             SimpleIoc.Default.Register<AnonimizatorViewModel>();
+            SimpleIoc.Default.Register<KAnonimizationViewModel>();
+            SimpleIoc.Default.Register<AnonimizationViewModel>();
         }
 
         public AnonimizatorViewModel AnonimizatorViewModel
@@ -51,7 +53,23 @@ namespace Anonimizator.ViewModel
                 return ServiceLocator.Current.GetInstance<AnonimizatorViewModel>();
             }
         }
-        
+
+        public KAnonimizationViewModel KAnonimizationViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<KAnonimizationViewModel>();
+            }
+        }
+
+        public AnonimizationViewModel AnonimizationViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AnonimizationViewModel>();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

@@ -1,0 +1,21 @@
+﻿<Window x:Class="Anonimizator.AnonimizatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Anonimizator"
+        mc:Ignorable="d"
+        Title="Anonimizator" Height="450" Width="800"
+        ResizeMode="NoResize"
+        DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}">
+    <TabControl HorizontalAlignment="Left" Height="Auto" Width="800">
+        <TabItem Header="K-anonimizacja">
+            <Grid>
+                <local:KAnonimization />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Anonimizacja">
+            <local:Anonimization />
+        </TabItem>
+    </TabControl>
+</Window>

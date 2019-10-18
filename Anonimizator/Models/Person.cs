@@ -18,5 +18,7 @@ namespace Anonimizator.Models
 
         public string Surname { get; set; }
 
+        public string Age { get; set; }
+
     }
 }

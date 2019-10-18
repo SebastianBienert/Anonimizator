@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Anonimizator.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
@@ -66,26 +69,43 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="XAMLs\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="XAMLs\Anonimization.xaml.cs">
+      <DependentUpon>Anonimization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\TypeAnonimizationColumn.cs" />
+    <Compile Include="XAMLs\KAnonimization.xaml.cs">
+      <DependentUpon>KAnonimization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Person.cs" />
     <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="ViewModel\AnonimizationViewModel.cs" />
     <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
+    <Compile Include="ViewModel\KAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Page Include="AnonimizatorWindow.xaml">
+    <Page Include="XAMLs\Anonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XAMLs\AnonimizatorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="XAMLs\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AnonimizatorWindow.xaml.cs">
+    <Compile Include="XAMLs\AnonimizatorWindow.xaml.cs">
       <DependentUpon>AnonimizatorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="XAMLs\KAnonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
