@@ -6,32 +6,24 @@ using Anonimizator.Models;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.IO;
 using System;
+using Anonimizator.Services;
 using Microsoft.Win32;
 
 namespace Anonimizator.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class AnonimizationViewModel : ViewModelBase
     {
-        public readonly string DEFAULT_FILE_NAME = @"data.csv";
-        public readonly string FILE_WITH_DATA = @"data.csv";
+        private readonly string DEFAULT_FILE_NAME = @"data.csv";
+        private readonly string FILE_WITH_DATA = @"data.csv";
+        private readonly FileService _fileService;
 
-        public AnonimizationViewModel()
+        public AnonimizationViewModel(FileService fileService)
         {
-            ReadData();
+            _fileService = fileService;
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = ColumnNames.First();
+
             SaveDataCommand = new RelayCommand(SaveData);
             CharakterMaskingCommand = new RelayCommand(CharakterMaskingColumn);
         }
@@ -88,47 +80,9 @@ namespace Anonimizator.ViewModel
             }));
         }
 
-        #region File operation
-
-        private string SelectFileToSaveData()
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                return sfd.FileName;
-            }
-
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DEFAULT_FILE_NAME);
-        }
-
         private void SaveData()
         {
-            var pathDataFile = SelectFileToSaveData();
-            using (var textWriter = File.CreateText(pathDataFile))
-            {
-                foreach (var line in Utils.ToCsv(People))
-                {
-                    textWriter.WriteLine(line);
-                }
-            }
+            _fileService.SavePeopleData(People, DEFAULT_FILE_NAME);
         }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>();
-            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, FILE_WITH_DATA)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var person = Utils.PersonFromCsv(line);
-                    People.Add(person);
-                }
-            }
-        }
-        #endregion
     }
 }

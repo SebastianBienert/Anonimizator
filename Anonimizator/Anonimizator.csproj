@@ -73,6 +73,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithms\CharacterMasking.cs" />
+    <Compile Include="Algorithms\IKAnonimization.cs" />
+    <Compile Include="Algorithms\KAgeAnonimization.cs" />
+    <Compile Include="Algorithms\KCityAnonimization.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="XAMLs\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
     </Compile>
@@ -134,8 +139,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

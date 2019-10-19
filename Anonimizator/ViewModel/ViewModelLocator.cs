@@ -12,6 +12,8 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System.IO;
+using Anonimizator.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using CommonServiceLocator;
@@ -44,6 +46,7 @@ namespace Anonimizator.ViewModel
             SimpleIoc.Default.Register<AnonimizatorViewModel>();
             SimpleIoc.Default.Register<KAnonimizationViewModel>();
             SimpleIoc.Default.Register<AnonimizationViewModel>();
+            SimpleIoc.Default.Register<FileService>();
         }
 
         public AnonimizatorViewModel AnonimizatorViewModel

@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anonimizator"
         mc:Ignorable="d"
-        Title="Anonimizator" Height="800" Width="800"
-        ResizeMode="NoResize"
+        Title="Anonimizator"
         DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}">
     <TabControl HorizontalAlignment="Left" Height="Auto" Width="800">
         <TabItem Header="K-anonimizacja">

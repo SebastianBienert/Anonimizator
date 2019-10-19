@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Anonimizator.Algorithms;
 using Anonimizator.Models;
+using Anonimizator.Services;
 using GalaSoft.MvvmLight;
 using Microsoft.Win32;
 using GalaSoft.MvvmLight.Command;
@@ -18,54 +20,18 @@ namespace Anonimizator.ViewModel
     {
         public readonly string DEFAULT_FILE_NAME = @"data.csv";
         public readonly string FILE_WITH_DATA = @"data.csv";
+        private readonly FileService _fileService;
+        private IKAnonimization _anonimizationAlgortihm;
 
-        List<Tuple<string, string, string>> dictionary = new List<Tuple<string, string, string>>()
-        {
-            Tuple.Create("Katowice", "Slaskie", "Polska" ),
-            Tuple.Create("Czestochowa", "Slaskie", "Polska" ),
-            Tuple.Create("Rybnik", "Slaskie", "Polska" ),
-            Tuple.Create("Gliwice", "Slaskie", "Polska" ),
-            Tuple.Create("Zabrze", "Slaskie", "Polska" ),
-            Tuple.Create("Bytom", "Slaskie", "Polska" ),
-            Tuple.Create("Pszczyna", "Slaskie", "Polska" ),
-            Tuple.Create("Tychy", "Slaskie", "Polska" ),
-            Tuple.Create("Cieszyn", "Slaskie", "Polska" ),
-            Tuple.Create("Wroclaw", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Olawa", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Swidnica", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Walbrzych", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Klodzko", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Lubin", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Luban", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Jelenia Gora", "Dolnoslaskie", "Polska" ),
-            Tuple.Create("Warszawa", "Mazowieckie", "Polska" ),
-            Tuple.Create("Siedlce", "Mazowieckie", "Polska" ),
-            Tuple.Create("Radom", "Mazowieckie", "Polska" ),
-            Tuple.Create("Ciechanow", "Mazowieckie", "Polska" ),
-            Tuple.Create("Ostroleka", "Mazowieckie", "Polska" ),
-            Tuple.Create("Wyszkow", "Mazowieckie", "Polska" ),
-            Tuple.Create("Lipsko", "Mazowieckie", "Polska" ),
-            Tuple.Create("Piaseczno", "Mazowieckie", "Polska" ),
-            Tuple.Create("Proszkow", "Mazowieckie", "Polska" ),
-            Tuple.Create("Opole", "Opolskie", "Polska" ),
-            Tuple.Create("Brzeg", "Opolskie", "Polska" ),
-            Tuple.Create("Prudnik", "Opolskie", "Polska" ),
-            Tuple.Create("Nysa", "Opolskie", "Polska" ),
-            Tuple.Create("Kluczbork", "Opolskie", "Polska" ),
-            Tuple.Create("Glubczyce", "Opolskie", "Polska" ),
-            Tuple.Create("Namyslow", "Opolskie", "Polska" ),
-            Tuple.Create("Gdansk", "Pomorskie", "Polska" ),
-            Tuple.Create("Gdynia", "Pomorskie", "Polska" ),
-            Tuple.Create("Puck", "Pomorskie", "Polska" ),
-            Tuple.Create("Sopot", "Pomorskie", "Polska" )
-        };
-
-        public KAnonimizationViewModel()
+        public KAnonimizationViewModel(FileService fileService)
         {
             _parameterK = 1;
-            ReadData();
-            ColumnNames = new ObservableCollection<string> (){ "Age", "City", "Gender" };
-            _selectedColumnName = ColumnNames.First();
+            _fileService = fileService;
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
+            ColumnNames = new ObservableCollection<string>{"Age", "City"};
+            _selectedColumnName = "Age";
+            _anonimizationAlgortihm = new KAgeAnonimization(ParameterK, People);
+
             SaveDataCommand = new RelayCommand(SaveData);
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
             RestartDataCommand = new RelayCommand(ReadData); 
@@ -92,6 +58,20 @@ namespace Anonimizator.ViewModel
             {
                 _selectedColumnName = value;
                 RaisePropertyChanged("SelectedColumnName");
+                _anonimizationAlgortihm = DetermineAlgorithm();
+            }
+        }
+
+        private IKAnonimization DetermineAlgorithm()
+        {
+            switch (SelectedColumnName)
+            {
+                case "Age":
+                    return new KAgeAnonimization(ParameterK, People);
+                case "City":
+                    return new KCityAnonimization(ParameterK, People);
+                default:
+                    return new KAgeAnonimization(ParameterK, People);
             }
         }
 
@@ -102,6 +82,8 @@ namespace Anonimizator.ViewModel
             set
             {
                 _parameterK = value;
+                RaisePropertyChanged("ParameterK");
+                _anonimizationAlgortihm = DetermineAlgorithm();
             }
         }
 
@@ -125,171 +107,18 @@ namespace Anonimizator.ViewModel
 
         private void KAnonimizationAlgorithm()
         {
-            if(SelectedColumnName == "Age")
-                KAnonimizationAgeColumn();
-            else if(SelectedColumnName == "City")
-                KAnonimizationCityColumn();
-            else if (SelectedColumnName == "Gender")
-                CharakterMaskingColumn();
+            People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData());
         }
-
-        private void KAnonimizationCityColumn()
-        {
-            ObservableCollection<Person> newCollection = new ObservableCollection<Person>();
-            foreach (var p in People)
-            {
-                newCollection.Add(p);
-            }
-
-            bool needBetterAnonimization = false;
-
-            do
-            {
-                needBetterAnonimization = false;
-                var query = newCollection.GroupBy(
-                    p => p.City,
-                    p => p.City,
-                    (baseCity, cities) => new
-                    {
-                        Key = baseCity,
-                        Count = cities.Count()
-                    });
-
-                if (query.Count() == 1)
-                    break;
-
-                foreach (var q in query)
-                {
-                    if (q.Count < ParameterK)
-                    {
-                        needBetterAnonimization = true;
-                        break;
-                    }
-                }
-
-                if (needBetterAnonimization)
-                {
-                    foreach (var person in newCollection)
-                    {
-                        var cityName = person.City;
-                        foreach (var row in dictionary)
-                        {
-                            if (person.City == row.Item1)
-                            {
-                                person.City = row.Item2;
-                                break;
-                            }
-                            else if (person.City == row.Item2)
-                            {
-                                person.City = row.Item3;
-                                break;
-                            }
-                        }
-
-                        if (cityName == person.City)
-                        {
-                            person.City = "Europa";
-                        }
-                    }
-                }
-            } while (needBetterAnonimization);
-
-            People = newCollection;
-        }
-
-        private void KAnonimizationAgeColumn()
-        {
-            var lp = People.OrderBy(c => int.Parse(c.Age)).ToList();
-            ObservableCollection<Person> tmpList = new ObservableCollection<Person>();
-            ObservableCollection<Person> newCollection = new ObservableCollection<Person>();
-
-            int k = ParameterK;
-            int lengthList = lp.Count;
-            for (int i = 0; i < lengthList; i++)
-            {
-                var p = lp[i];
-                if (k > 0 || (tmpList.LastOrDefault() != null && tmpList.Last().Age == p.Age) || (lengthList - i < ParameterK) || (tmpList.First().Age == tmpList.Last().Age))
-                {
-                    tmpList.Add(p);
-                    k--;
-                }
-                else
-                {
-                    string compartment = tmpList.First().Age + " - " + tmpList.Last().Age;
-                    foreach (var e in tmpList)
-                    {
-                        e.Age = compartment;
-                        newCollection.Add(e);
-                    }
-
-                    k = ParameterK - 1;
-                    tmpList = new ObservableCollection<Person> {p};
-                }
-            }
-
-            if (tmpList.Count > 0)
-            {
-                string compartment = tmpList.First().Age + " - " + tmpList.Last().Age;
-                foreach (var e in tmpList)
-                {
-                    e.Age = compartment;
-                    newCollection.Add(e);
-                }
-            }
-
-            People = newCollection;
-        }
-
-        private void CharakterMaskingColumn()
-        {
-            People = new ObservableCollection<Person>(People.Select(p =>
-            {
-                p.GetType().GetProperty(SelectedColumnName).SetValue(p, "*");
-                return p;
-            }));
-        }
-
-        #region File operation
 
         private void SaveData()
         {
-            var pathDataFile = SelectFileToSaveData();
-            using (var textWriter = File.CreateText(pathDataFile))
-            {
-                foreach (var line in Utils.ToCsv(People))
-                {
-                    textWriter.WriteLine(line);
-                }
-            }
+            _fileService.SavePeopleData(People, DEFAULT_FILE_NAME);
         }
 
         private void ReadData()
         {
-            People = new ObservableCollection<Person>();
-            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, FILE_WITH_DATA)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var person = Utils.PersonFromCsv(line);
-                    People.Add(person);
-                }
-            }
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
         }
-
-        private string SelectFileToSaveData()
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                return sfd.FileName;
-            }
-
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DEFAULT_FILE_NAME);
-        }
-        #endregion
+       
     }
 }
