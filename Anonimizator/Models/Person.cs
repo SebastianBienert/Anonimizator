@@ -8,6 +8,21 @@ namespace Anonimizator.Models
 {
     public class Person
     {
+        public Person(string gender, string job, string city, string firstName, string surname, string age)
+        {
+            Gender = gender;
+            Job = job;
+            City = city;
+            FirstName = firstName;
+            Surname = surname;
+            Age = age;
+        }
+
+        public Person()
+        {
+            
+        }
+
         public string Gender { get; set; }
 
         public string Job { get; set; }
