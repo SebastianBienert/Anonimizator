@@ -53,7 +53,19 @@ namespace Anonimizator.Services
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileName);
         }
 
-
-
+        public List<List<string>> GetDictionaryData(string path)
+        {
+            var dictionary = new List<List<string>>();
+            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, path)))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if(!string.IsNullOrEmpty(line))
+                        dictionary.Add(line.Split(';').ToList());
+                }
+            }
+            return dictionary;
+        }
     }
 }

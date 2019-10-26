@@ -7,12 +7,12 @@ using Anonimizator.Models;
 
 namespace Anonimizator.Algorithms
 {
-    class KCityAnonimization : IKAnonimization
+    class KJobAnonimization : IKAnonimization
     {
         private readonly List<List<string>> _dictionary;
         public int ParameterK { get; }
 
-        public KCityAnonimization(int parameterK, List<List<string>> dictionary)
+        public KJobAnonimization(int parameterK, List<List<string>> dictionary)
         {
             ParameterK = parameterK;
             _dictionary = dictionary;
@@ -31,12 +31,12 @@ namespace Anonimizator.Algorithms
             {
                 needBetterAnonimization = false;
                 var query = newCollection.GroupBy(
-                    p => p.City,
-                    p => p.City,
-                    (baseCity, cities) => new
+                    p => p.Job,
+                    p => p.Job,
+                    (baseJob, jobs) => new
                     {
-                        Key = baseCity,
-                        Count = cities.Count()
+                        Key = baseJob,
+                        Count = jobs.Count()
                     });
 
                 if (query.Count() == 1)
@@ -61,9 +61,9 @@ namespace Anonimizator.Algorithms
                         {
                             for (int i = 0; !change && i < row.Count - 1; i++)
                             {
-                                if (person.City == row[i])
+                                if (person.Job == row[i])
                                 {
-                                    person.City = row[ i + 1 ];
+                                    person.Job = row[ i + 1 ];
                                     change = true;
                                 }
                             }
@@ -74,7 +74,7 @@ namespace Anonimizator.Algorithms
 
                         if (!change)
                         {
-                            person.City = "Europa";
+                            person.Job = "Praca";
                         }
                     }
                 }

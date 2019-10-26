@@ -10,20 +10,18 @@ namespace Anonimizator.Algorithms
     public class KAgeAnonimzation_V2 : IKAnonimization
     {
         public int ParameterK { get; }
-        public IEnumerable<Person> People { get; }
 
-        public KAgeAnonimzation_V2(int parameterK, IEnumerable<Person> people)
+        public KAgeAnonimzation_V2(int parameterK)
         {
             ParameterK = parameterK;
-            People = people;
         }
 
-        public List<Person> GetAnonymizedData()
+        public List<Person> GetAnonymizedData(IEnumerable<Person> people)
         {
-            if(People == null || !People.Any())
+            if(people == null || !people.Any())
                 return new List<Person>();
 
-            var groupsOrderdByAge = People.GroupBy(person => person.Age)
+            var groupsOrderdByAge = people.GroupBy(person => person.Age)
                                     .Select(gPeople => new
                                     {
                                         Age = gPeople.First().Age,

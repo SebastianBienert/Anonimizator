@@ -25,6 +25,7 @@
         <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
                   ItemsSource="{Binding People, Mode=OneWay}"/>
 
+
         <Label Grid.Column="0" Grid.Row="1"
                Content="Parametr K:"
                HorizontalContentAlignment="Center"

@@ -10,17 +10,15 @@ namespace Anonimizator.Algorithms
     public class KAgeAnonimization : IKAnonimization
     {
         public int ParameterK { get;}
-        public IEnumerable<Person> People { get; }
 
-        public KAgeAnonimization(int parameterK, IEnumerable<Person> people)
+        public KAgeAnonimization(int parameterK)
         {
             ParameterK = parameterK;
-            People = people;
         }
 
-        public List<Person> GetAnonymizedData()
+        public List<Person> GetAnonymizedData(IEnumerable<Person> people)
         {
-            var lp = People.OrderBy(c => int.Parse(c.Age)).ToList();
+            var lp = people.OrderBy(c => int.Parse(c.Age)).ToList();
             List<Person> tmpList = new List<Person>();
             List<Person> newCollection = new List<Person>();
 

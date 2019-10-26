@@ -20,17 +20,23 @@ namespace Anonimizator.ViewModel
     {
         public readonly string DEFAULT_FILE_NAME = @"data.csv";
         public readonly string FILE_WITH_DATA = @"data.csv";
+        public readonly string FILE_WITH_CITY_GENERALIZATION_DICTIONARY = @"cityDictionary.csv";
+        public readonly string FILE_WITH_JOB_GENERALIZATION_DICTIONARY = @"jobDictionary.csv";
         private readonly FileService _fileService;
         private IKAnonimization _anonimizationAlgortihm;
+        private List<List<string>> _cityDictionary;
+        private List<List<string>> _jobDictionary;
 
         public KAnonimizationViewModel(FileService fileService)
         {
             _parameterK = 1;
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
-            ColumnNames = new ObservableCollection<string>{"Age", "City"};
+            ColumnNames = new ObservableCollection<string>{"Age", "City", "Job"};
+            _cityDictionary = _fileService.GetDictionaryData(FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
+            _jobDictionary = _fileService.GetDictionaryData(FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
             _selectedColumnName = "Age";
-            _anonimizationAlgortihm = new KAgeAnonimization(ParameterK, People);
+            _anonimizationAlgortihm = new KAgeAnonimization(ParameterK);
 
             SaveDataCommand = new RelayCommand(SaveData);
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
@@ -67,11 +73,13 @@ namespace Anonimizator.ViewModel
             switch (SelectedColumnName)
             {
                 case "Age":
-                    return new KAgeAnonimization(ParameterK, People);
+                    return new KAgeAnonimization(ParameterK);
                 case "City":
-                    return new KCityAnonimization(ParameterK, People);
+                    return new KCityAnonimization(ParameterK, _cityDictionary);
+                case "Job":
+                    return new KJobAnonimization(ParameterK, _jobDictionary);
                 default:
-                    return new KAgeAnonimization(ParameterK, People);
+                    return new KAgeAnonimization(ParameterK);
             }
         }
 
@@ -107,7 +115,7 @@ namespace Anonimizator.ViewModel
 
         private void KAnonimizationAlgorithm()
         {
-            People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData());
+            People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
         }
 
         private void SaveData()
