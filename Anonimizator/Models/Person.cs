@@ -8,6 +8,18 @@ namespace Anonimizator.Models
 {
     public class Person
     {
+        public string Gender { get; set; }
+
+        public string Job { get; set; }
+
+        public string City { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string Surname { get; set; }
+
+        public string Age { get; set; }
+
         public Person(string gender, string job, string city, string firstName, string surname, string age)
         {
             Gender = gender;
@@ -20,20 +32,14 @@ namespace Anonimizator.Models
 
         public Person()
         {
-            
+
         }
 
-        public string Gender { get; set; }
+        public Person Clone()
+        {
+            return new Person(this.Age, this.Job, this.City, this.FirstName, this.Surname, this.Age);
+        }
 
-        public string Job { get; set; }
-
-        public string City { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string Surname { get; set; }
-
-        public string Age { get; set; }
 
     }
 }

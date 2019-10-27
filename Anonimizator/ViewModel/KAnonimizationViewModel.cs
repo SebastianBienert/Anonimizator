@@ -28,7 +28,7 @@ namespace Anonimizator.ViewModel
             _parameterK = 1;
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
-            ColumnNames = new ObservableCollection<string>{"Age", "City"};
+            ColumnNames = new ObservableCollection<string>{"Age", "City", "FirstName", "Surname"};
             _selectedColumnName = "Age";
             _anonimizationAlgortihm = new KAgeAnonimization(ParameterK, People);
 
@@ -58,7 +58,6 @@ namespace Anonimizator.ViewModel
             {
                 _selectedColumnName = value;
                 RaisePropertyChanged("SelectedColumnName");
-                _anonimizationAlgortihm = DetermineAlgorithm();
             }
         }
 
@@ -70,6 +69,10 @@ namespace Anonimizator.ViewModel
                     return new KAgeAnonimization(ParameterK, People);
                 case "City":
                     return new KCityAnonimization(ParameterK, People);
+                case "FirstName":
+                    return new KAttributeLengthAnonimization<string>(ParameterK, People, p => p.FirstName);
+                case "Surname":
+                    return new KAttributeLengthAnonimization<string>(ParameterK, People, p => p.Surname);
                 default:
                     return new KAgeAnonimization(ParameterK, People);
             }
@@ -83,7 +86,6 @@ namespace Anonimizator.ViewModel
             {
                 _parameterK = value;
                 RaisePropertyChanged("ParameterK");
-                _anonimizationAlgortihm = DetermineAlgorithm();
             }
         }
 
@@ -107,6 +109,7 @@ namespace Anonimizator.ViewModel
 
         private void KAnonimizationAlgorithm()
         {
+            _anonimizationAlgortihm = DetermineAlgorithm();
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData());
         }
 
