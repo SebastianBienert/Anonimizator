@@ -32,10 +32,10 @@ namespace Anonimzator.Tests
         public void GivenEmptyPeopleList_ShouldReturn_EmptyList()
         {
             //Arrange
-            var algorithm = new KAttributeLengthAnonimization<string>(2, new List<Person>(), p => p.FirstName);
+            var algorithm = new KAttributeLengthAnonimization<string>(2, p => p.FirstName);
 
             //Act
-            var anonymzed = algorithm.GetAnonymizedData();
+            var anonymzed = algorithm.GetAnonymizedData(new List<Person>());
 
             //Assert
             Assert.IsTrue(!anonymzed.Any());
@@ -45,9 +45,9 @@ namespace Anonimzator.Tests
         public void GivenKParameterOne_ShouldReturnTheSameList()
         {
             //Arrange
-            var algorithm = new KAttributeLengthAnonimization<string>(2, new List<Person>(), p => p.FirstName);
+            var algorithm = new KAttributeLengthAnonimization<string>(2, p => p.FirstName);
             //Act
-            var anonymzed = algorithm.GetAnonymizedData();
+            var anonymzed = algorithm.GetAnonymizedData(new List<Person>());
 
             //Assert
             Assert.IsTrue(anonymzed.All(p => p.Age == _people.First(x => x.FirstName == p.FirstName && x.Surname == p.Surname).Age));
@@ -61,9 +61,9 @@ namespace Anonimzator.Tests
         public void GivenKParameter_GreaterThan_1_ShouldReturnAnonymyzedList(int parameterK)
         {
             //Arrange
-            var algorithm = new KAttributeLengthAnonimization<string>(parameterK, _people, p => p.FirstName);
+            var algorithm = new KAttributeLengthAnonimization<string>(parameterK, p => p.FirstName);
             //Act
-            var anonymzed = algorithm.GetAnonymizedData();
+            var anonymzed = algorithm.GetAnonymizedData(_people);
             //Assert
 
             Assert.AreEqual(_people.Count, anonymzed.Count);

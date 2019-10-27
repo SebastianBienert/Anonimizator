@@ -78,6 +78,7 @@
     <Compile Include="Algorithms\KAgeAnonimization.cs" />
     <Compile Include="Algorithms\KAgeAnonimzation_V2.cs" />
     <Compile Include="Algorithms\KAttributeLengthAnonimization.cs" />
+    <Compile Include="Algorithms\KJobAnonimization.cs" />
     <Compile Include="Algorithms\KCityAnonimization.cs" />
     <Compile Include="Helpers\Reflections.cs" />
     <Compile Include="Services\FileService.cs" />

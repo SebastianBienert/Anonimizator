@@ -13,24 +13,22 @@ namespace Anonimizator.Algorithms
     public class KAttributeLengthAnonimization<T> : IKAnonimization
     {
         public int ParameterK { get; }
-        public IEnumerable<Person> People { get; }
         private readonly Expression<Func<Person, T>> _anonimizedExpression;
         private readonly Func<Person, T> _anonimizedProperty;
 
-        public KAttributeLengthAnonimization(int parameterK, IEnumerable<Person> people, Expression<Func<Person, T>> anonimizedProperty)
+        public KAttributeLengthAnonimization(int parameterK,  Expression<Func<Person, T>> anonimizedProperty)
         {
             ParameterK = parameterK;
-            People = people;
             _anonimizedExpression = anonimizedProperty;
             _anonimizedProperty = anonimizedProperty.Compile();
         }
 
-        public List<Person> GetAnonymizedData()
+        public List<Person> GetAnonymizedData(IEnumerable<Person> people)
         {
-            if (People == null || !People.Any())
+            if (people == null || !people.Any())
                 return new List<Person>();
 
-            var groupsOrderdByLength = People.GroupBy(p =>
+            var groupsOrderdByLength = people.GroupBy(p =>
                 {
                     var propertyInfo = Reflections.GetPropertyInfo(p, _anonimizedExpression);
                     return propertyInfo.GetValue(p).ToString().Length;

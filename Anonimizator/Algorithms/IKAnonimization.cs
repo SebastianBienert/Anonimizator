@@ -9,6 +9,6 @@ namespace Anonimizator.Algorithms
 {
     public interface IKAnonimization
     {
-        List<Person> GetAnonymizedData();
+        List<Person> GetAnonymizedData(IEnumerable<Person> people);
     }
 }

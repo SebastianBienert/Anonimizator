@@ -1,4 +1,4 @@
-M;Inzynier;Wroclaw;Jan;Nowak;7
+M;Inzynier;Wroclaw;Jan;Nowak;15
 M;Inzynier;Katowice;Adam;Kowalski;11
 M;Inzynier;Wroclaw;Kamil;Malinowski;15
 M;Inzynier;Czestochowa;Jakub;Jagiel;15
@@ -28,3 +28,33 @@ M;Muzyk;Puck;Damian;Malinowski;26
 K;Tancerz;Glubczyce;Joanna;Kowal;39
 M;Tancerz;Lipsko;Grzegorz;Malinowski;10
 K;Programista;Warszawa;Zofia;Nowak;30
+M;Straznik wiezienny;Gdansk;Daniel;Kowal;22
+M;Policjant;Sopot;Jozef;Kowalski;23
+M;Straznik wiezienny;Puck;Kamil;Malinowski;24
+K;Historyk;Glubczyce;Kamila;Kowal;25
+M;Polonista;Lipsko;Andrzej;Malinowski;26
+K;Matematyk;Warszawa;Joanna;Nowak;47
+M;Polonista;Gdansk;Andrzej;Kowal;25
+M;Polonista;Sopot;Jan;Kowalski;56
+M;Polonista;Warszawa;Adam;Malinowski;43
+K;Historyk;Warszawa;Kamila;Kowal;53
+M;Polonista;Warszawa;Andrzej;Malinowski;23
+K;Matematyk;Warszawa;Natalia;Nowak;54
+K;Informatyk;Wyszkow;Beata;Osowski;32
+M;Informatyk;Lubin;Adam;Kowalski;23
+M;Informatyk;Zabrze;Krystian;Malinowski;24
+M;Muzyk;Olawa;Krystian;Nowak;26
+K;Architekt;Lubin;Marta;Szymanski;36
+M;Matematyk;Ciechanow;Michal;Nowak;45
+K;Matematyk;Gdynia;Maria;Wojcik;35
+M;Strazak;Gdansk;Maciej;Kowal;46
+M;Policjant;Rybnik;Wiktor;Kowalski;23
+K;Strazak;Olawa;Marta;Wojcik;43
+K;Policjant;Olawa;Karolina;Kowalczyk;31
+M;Strazak;Wroclaw;Jan;Szymanski;32
+M;Historyk;Wroclaw;Adrian;Szymanski;33
+M;Historyk;Wroclaw;Dominik;Nowakowski;43
+M;Polonista;Swidnica;Kamil;Kowalski;24
+M;Programista;Wroclaw;Daniel;Szymanski;24
+M;Programista;Wroclaw;Kamil;Nowakowski;32
+M;Programista;Swidnica;Roman;Kowalski;30

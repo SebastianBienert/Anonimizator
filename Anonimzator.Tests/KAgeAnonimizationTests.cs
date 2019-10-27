@@ -29,10 +29,10 @@ namespace Anonimzator.Tests
         public void GivenEmptyPeopleList_ShouldReturn_EmptyList()
         {
             //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(2, new List<Person>());
+            var ageAnonimizator = new KAgeAnonimzation_V2(2);
 
             //Act
-            var anonymzed = ageAnonimizator.GetAnonymizedData();
+            var anonymzed = ageAnonimizator.GetAnonymizedData(new List<Person>());
 
             //Assert
             Assert.IsTrue(!anonymzed.Any());
@@ -42,10 +42,10 @@ namespace Anonimzator.Tests
         public void GivenKParameterOne_ShouldReturnTheSameList()
         {
             //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(1, _people);
+            var ageAnonimizator = new KAgeAnonimzation_V2(1);
 
             //Act
-            var anonymzed = ageAnonimizator.GetAnonymizedData();
+            var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
 
             //Assert
             Assert.IsTrue(anonymzed.All(p => p.Age == _people.First(x => x.FirstName == p.FirstName && x.Surname == p.Surname).Age));
@@ -59,9 +59,9 @@ namespace Anonimzator.Tests
         public void GivenKParameter_GreaterThan_1_ShouldReturnAnonymyzedList(int parameterK)
         {
             //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(parameterK, _people);
+            var ageAnonimizator = new KAgeAnonimzation_V2(parameterK);
             //Act
-            var anonymzed = ageAnonimizator.GetAnonymizedData();
+            var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
             //Assert
 
             Assert.AreEqual(_people.Count, anonymzed.Count);
@@ -79,9 +79,9 @@ namespace Anonimzator.Tests
         public void MATI_GivenKParameter_GreaterThan_1_ShouldReturnAnonymyzedList(int parameterK)
         {
             //Arrange
-            var ageAnonimizator = new KAgeAnonimization(parameterK, _people);
+            var ageAnonimizator = new KAgeAnonimization(parameterK);
             //Act
-            var anonymzed = ageAnonimizator.GetAnonymizedData();
+            var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
             //Assert
 
             Assert.AreEqual(_people.Count, anonymzed.Count);
