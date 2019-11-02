@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="KAttributeLengthAnonimizationTests.cs" />
     <Compile Include="KAgeAnonimizationTests.cs" />
+    <Compile Include="KCommonStartMaskingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

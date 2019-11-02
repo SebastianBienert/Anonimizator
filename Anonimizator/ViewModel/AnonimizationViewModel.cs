@@ -25,7 +25,7 @@ namespace Anonimizator.ViewModel
             _selectedColumnName = ColumnNames.First();
 
             SaveDataCommand = new RelayCommand(SaveData);
-            CharakterMaskingCommand = new RelayCommand(CharakterMaskingColumn);
+            CharacterMaskingCommand = new RelayCommand(CharakterMaskingColumn);
         }
 
         private ObservableCollection<Person> _people;
@@ -58,7 +58,7 @@ namespace Anonimizator.ViewModel
             private set;
         }
 
-        public ICommand CharakterMaskingCommand
+        public ICommand CharacterMaskingCommand
         {
             get;
             private set;

@@ -78,7 +78,7 @@ namespace Anonimizator.ViewModel
                 case "FirstName":
                     return new KAttributeLengthAnonimization<string>(ParameterK, p => p.FirstName);
                 case "Surname":
-                    return new KAttributeLengthAnonimization<string>(ParameterK, p => p.Surname);
+                    return new CommonStartStringMasking<string>(ParameterK, p => p.Surname);
                 case "Job":
                     return new KJobAnonimization(ParameterK, _jobDictionary);
                 default:

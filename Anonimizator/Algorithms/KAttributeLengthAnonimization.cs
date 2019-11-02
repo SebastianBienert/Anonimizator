@@ -16,7 +16,7 @@ namespace Anonimizator.Algorithms
         private readonly Expression<Func<Person, T>> _anonimizedExpression;
         private readonly Func<Person, T> _anonimizedProperty;
 
-        public KAttributeLengthAnonimization(int parameterK,  Expression<Func<Person, T>> anonimizedProperty)
+        public KAttributeLengthAnonimization(int parameterK, Expression<Func<Person, T>> anonimizedProperty)
         {
             ParameterK = parameterK;
             _anonimizedExpression = anonimizedProperty;
@@ -35,11 +35,11 @@ namespace Anonimizator.Algorithms
                 })
                 .Select(gPeople => new
                 {
-                    Value = gPeople.Select(_anonimizedProperty).First(),
+                    Value = gPeople.Select(_anonimizedProperty).First().ToString().Length,
                     People = gPeople.ToList(),
                     Count = gPeople.Count()
                 })
-                .OrderBy(p => p.Value.ToString().Length);
+                .OrderBy(p => p.Value);
 
             var result = new List<List<Person>>();
             var currentIntervalGroup = new List<Person>();

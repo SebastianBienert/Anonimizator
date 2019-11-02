@@ -74,13 +74,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Algorithms\CharacterMasking.cs" />
+    <Compile Include="Algorithms\CommonStartStringMasking.cs" />
     <Compile Include="Algorithms\IKAnonimization.cs" />
     <Compile Include="Algorithms\KAgeAnonimization.cs" />
     <Compile Include="Algorithms\KAgeAnonimzation_V2.cs" />
     <Compile Include="Algorithms\KAttributeLengthAnonimization.cs" />
     <Compile Include="Algorithms\KJobAnonimization.cs" />
     <Compile Include="Algorithms\KCityAnonimization.cs" />
+    <Compile Include="Helpers\LinqExtensions.cs" />
     <Compile Include="Helpers\Reflections.cs" />
+    <Compile Include="Models\PeopleGroup.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="XAMLs\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
