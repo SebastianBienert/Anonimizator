@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Anonimizator"
         mc:Ignorable="d"
         Title="Anonimizator"
-        DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}">
+        DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}"
+        Width="820">
     <TabControl HorizontalAlignment="Left" Height="Auto" Width="800">
         <TabItem Header="K-anonimizacja">
             <Grid>

@@ -37,7 +37,7 @@ namespace Anonimizator.Models
 
         public Person Clone()
         {
-            return new Person(this.Age, this.Job, this.City, this.FirstName, this.Surname, this.Age);
+            return new Person(this.Gender, this.Job, this.City, this.FirstName, this.Surname, this.Age);
         }
 
 
