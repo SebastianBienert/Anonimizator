@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Anonimizator.Algorithms;
+using Anonimizator.Helpers;
 using Anonimizator.Models;
 using Anonimizator.Services;
 using GalaSoft.MvvmLight;
@@ -18,10 +19,6 @@ namespace Anonimizator.ViewModel
 {
     public class KAnonimizationViewModel : ViewModelBase
     {
-        public readonly string DEFAULT_FILE_NAME = @"data.csv";
-        public readonly string FILE_WITH_DATA = @"data.csv";
-        public readonly string FILE_WITH_CITY_GENERALIZATION_DICTIONARY = @"cityDictionary.csv";
-        public readonly string FILE_WITH_JOB_GENERALIZATION_DICTIONARY = @"jobDictionary.csv";
         private readonly FileService _fileService;
         private IKAnonimization _anonimizationAlgortihm;
         private List<List<string>> _cityDictionary;
@@ -31,10 +28,10 @@ namespace Anonimizator.ViewModel
         {
             _parameterK = 1;
             _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
             ColumnNames = new ObservableCollection<string>{"Age", "City", "FirstName", "Surname", "Job"};
-            _cityDictionary = _fileService.GetDictionaryData(FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
-            _jobDictionary = _fileService.GetDictionaryData(FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
+            _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
+            _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
             _selectedColumnName = "Age";
             _anonimizationAlgortihm = new KAgeAnonimization(ParameterK);
 
@@ -123,12 +120,12 @@ namespace Anonimizator.ViewModel
 
         private void SaveData()
         {
-            _fileService.SavePeopleData(People, DEFAULT_FILE_NAME);
+            _fileService.SavePeopleData(People, ConstantStrings.DEFAULT_FILE_NAME);
         }
 
         private void ReadData()
         {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
         }
        
     }

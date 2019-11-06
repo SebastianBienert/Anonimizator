@@ -17,5 +17,8 @@
         <TabItem Header="Anonimizacja">
             <local:Anonimization />
         </TabItem>
+        <TabItem Header="Robocze">
+            <local:WorkPanel />
+        </TabItem>
     </TabControl>
 </Window>

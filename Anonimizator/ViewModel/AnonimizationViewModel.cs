@@ -6,6 +6,7 @@ using Anonimizator.Models;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.IO;
 using System;
+using Anonimizator.Helpers;
 using Anonimizator.Services;
 using Microsoft.Win32;
 
@@ -13,14 +14,12 @@ namespace Anonimizator.ViewModel
 {
     public class AnonimizationViewModel : ViewModelBase
     {
-        private readonly string DEFAULT_FILE_NAME = @"data.csv";
-        private readonly string FILE_WITH_DATA = @"data.csv";
         private readonly FileService _fileService;
 
         public AnonimizationViewModel(FileService fileService)
         {
             _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = ColumnNames.First();
 
@@ -82,7 +81,7 @@ namespace Anonimizator.ViewModel
 
         private void SaveData()
         {
-            _fileService.SavePeopleData(People, DEFAULT_FILE_NAME);
+            _fileService.SavePeopleData(People, ConstantStrings.DEFAULT_FILE_NAME);
         }
     }
 }

@@ -27,9 +27,14 @@ namespace Anonimizator.Services
             return people;
         }
 
-        public void SavePeopleData(IEnumerable<Person> people, string defaultFileName)
+        public void SavePeopleData(IEnumerable<Person> people, string defaultFileName, bool withDialog = true)
         {
-            var selectedFileName = GetSelectedFileName(defaultFileName);
+            string selectedFileName;
+            if (withDialog)
+                selectedFileName = GetSelectedFileName(defaultFileName);
+            else
+                selectedFileName = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, defaultFileName);
+
             using (var textWriter = File.CreateText(selectedFileName))
             {
                 foreach (var line in Utils.ToCsv(people))
@@ -66,6 +71,24 @@ namespace Anonimizator.Services
                 }
             }
             return dictionary;
+        }
+
+        public List<string> GetColumnData(string path, int columnNumber)
+        {
+            if (columnNumber < 0 || string.IsNullOrEmpty(path))
+                return null;
+
+            var column = new List<string>();
+            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, path)))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (!string.IsNullOrEmpty(line))
+                        column.Add(line.Split(';').ToList()[columnNumber]);
+                }
+            }
+            return column;
         }
     }
 }

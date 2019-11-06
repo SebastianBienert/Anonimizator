@@ -81,10 +81,13 @@
     <Compile Include="Algorithms\KAttributeLengthAnonimization.cs" />
     <Compile Include="Algorithms\KJobAnonimization.cs" />
     <Compile Include="Algorithms\KCityAnonimization.cs" />
+    <Compile Include="Helpers\ConstantStrings.cs" />
+    <Compile Include="Helpers\DataGenerator.cs" />
     <Compile Include="Helpers\LinqExtensions.cs" />
     <Compile Include="Helpers\Reflections.cs" />
     <Compile Include="Models\PeopleGroup.cs" />
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="ViewModel\WorkPanelViewModel.cs" />
     <Compile Include="XAMLs\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
     <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
     <Compile Include="ViewModel\KAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="XAMLs\WorkPanel.xaml.cs">
+      <DependentUpon>WorkPanel.xaml</DependentUpon>
+    </Compile>
     <Page Include="XAMLs\Anonimization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +121,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="XAMLs\KAnonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XAMLs\WorkPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -46,7 +46,8 @@ namespace Anonimizator.ViewModel
             SimpleIoc.Default.Register<AnonimizatorViewModel>();
             SimpleIoc.Default.Register<KAnonimizationViewModel>();
             SimpleIoc.Default.Register<AnonimizationViewModel>();
-            SimpleIoc.Default.Register<FileService>();
+            SimpleIoc.Default.Register<WorkPanelViewModel>();
+            SimpleIoc.Default.Register<FileService>(); 
         }
 
         public AnonimizatorViewModel AnonimizatorViewModel
@@ -70,6 +71,14 @@ namespace Anonimizator.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<AnonimizationViewModel>();
+            }
+        }
+
+        public WorkPanelViewModel WorkPanelViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<WorkPanelViewModel>();
             }
         }
 
