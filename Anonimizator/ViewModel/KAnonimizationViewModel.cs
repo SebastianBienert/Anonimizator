@@ -29,7 +29,7 @@ namespace Anonimizator.ViewModel
             _parameterK = 1;
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
-            ColumnNames = new ObservableCollection<string>{"Age", "City", "FirstName", "Surname", "Job"};
+            ColumnNames = new ObservableCollection<string>{"Age", "City", "FirstName", "Surname", "Job", "All columns"};
             _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
             _selectedColumnName = "Age";
@@ -78,6 +78,8 @@ namespace Anonimizator.ViewModel
                     return new CommonStartStringMasking<string>(ParameterK, p => p.Surname);
                 case "Job":
                     return new KJobAnonimization(ParameterK, _jobDictionary);
+                case "All columns":
+                    return new KTableAnonimzation(ParameterK, _cityDictionary, _jobDictionary);
                 default:
                     return new KAgeAnonimization(ParameterK);
             }

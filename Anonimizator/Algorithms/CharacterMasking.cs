@@ -7,20 +7,25 @@ using Anonimizator.Models;
 
 namespace Anonimizator.Algorithms
 {
-    public class CharacterMasking
+    public class CharacterMasking : IKAnonimization
     {
-        public IEnumerable<Person> People { get; }
+        private string ColumnName { get; }
 
-        public CharacterMasking(IEnumerable<Person> people)
+        public CharacterMasking()
         {
-            People = people;
+            ColumnName = "Gender";
         }
 
-        public List<Person> GetAnonymizedData(string columnName)
+        public CharacterMasking(string columnName)
         {
-            return People.Select(p =>
+            ColumnName = columnName;
+        }
+
+        public List<Person> GetAnonymizedData(IEnumerable<Person> people)
+        {
+            return people.Select(p =>
                 {
-                    p.GetType().GetProperty(columnName).SetValue(p, "*");
+                    p.GetType().GetProperty(ColumnName).SetValue(p, "*");
                     return p;
                 })
                 .ToList();
