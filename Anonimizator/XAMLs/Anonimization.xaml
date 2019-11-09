@@ -16,9 +16,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+        <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
                   ItemsSource="{Binding People, Mode=OneWay}"/>
 
 
@@ -33,5 +34,9 @@
         <Button Grid.Column="2" Grid.Row="1"
                 Command="{Binding SaveDataCommand}"
                 Content="Zapisz"/>
+
+        <Button Grid.Column="3" Grid.Row="1"
+                Command="{Binding RestartDataCommand}"
+                Content="Przywróć dane"/>
     </Grid>
 </UserControl>

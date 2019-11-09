@@ -47,7 +47,7 @@ namespace Anonimizator.ViewModel
             set
             {
                 _people = value;
-                RaisePropertyChanged("People");
+                RaisePropertyChanged(nameof(People));
             }
         }
 
@@ -60,7 +60,7 @@ namespace Anonimizator.ViewModel
             set
             {
                 _selectedColumnName = value;
-                RaisePropertyChanged("SelectedColumnName");
+                RaisePropertyChanged(nameof(SelectedColumnName));
             }
         }
 
@@ -90,7 +90,7 @@ namespace Anonimizator.ViewModel
             set
             {
                 _parameterK = value;
-                RaisePropertyChanged("ParameterK");
+                RaisePropertyChanged(nameof(ParameterK));
             }
         }
 

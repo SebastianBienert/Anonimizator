@@ -25,6 +25,7 @@ namespace Anonimizator.ViewModel
 
             SaveDataCommand = new RelayCommand(SaveData);
             CharacterMaskingCommand = new RelayCommand(CharakterMaskingColumn);
+            RestartDataCommand = new RelayCommand(ReadData);
         }
 
         private ObservableCollection<Person> _people;
@@ -34,7 +35,7 @@ namespace Anonimizator.ViewModel
             set
             {
                 _people = value;
-                RaisePropertyChanged("People");
+                RaisePropertyChanged(nameof(People));
             }
         }
 
@@ -47,7 +48,7 @@ namespace Anonimizator.ViewModel
             set
             {
                 _selectedColumnName = value;
-                RaisePropertyChanged("SelectedColumnName");
+                RaisePropertyChanged(nameof(SelectedColumnName));
             }
         }
 
@@ -69,6 +70,12 @@ namespace Anonimizator.ViewModel
             private set;
         }
 
+        public ICommand RestartDataCommand
+        {
+            get;
+            private set;
+        }
+
         private void CharakterMaskingColumn()
         {
             //Not effecient, but it works
@@ -82,6 +89,11 @@ namespace Anonimizator.ViewModel
         private void SaveData()
         {
             _fileService.SavePeopleData(People, ConstantStrings.DEFAULT_FILE_NAME);
+        }
+
+        private void ReadData()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
         }
     }
 }
