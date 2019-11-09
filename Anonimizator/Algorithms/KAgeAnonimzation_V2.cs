@@ -21,6 +21,11 @@ namespace Anonimizator.Algorithms
             if(people == null || !people.Any())
                 return new List<Person>();
 
+            if (!ValidateAge(people.ToList()))
+            {
+                return people.ToList();
+            }
+
             var groupsOrderdByAge = people.GroupBy(person => person.Age)
                                     .Select(gPeople => new
                                     {
@@ -64,6 +69,18 @@ namespace Anonimizator.Algorithms
                                                                 min == max ? min.ToString() : $"{min} - {max}"))
                                         .ToList();
             return anonymzedPeople;
+        }
+
+        private bool ValidateAge(List<Person> people)
+        {
+            foreach (var person in people)
+            {
+                if (!Int32.TryParse(person.Age, out _))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

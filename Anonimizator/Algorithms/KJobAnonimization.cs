@@ -11,11 +11,15 @@ namespace Anonimizator.Algorithms
     {
         private readonly List<List<string>> _dictionary;
         public int ParameterK { get; }
+        public int FirstDictionaryColumn { get; }
+        public int? LastDictionaryColumn { get; }
 
-        public KJobAnonimization(int parameterK, List<List<string>> dictionary)
+        public KJobAnonimization(int parameterK, List<List<string>> dictionary, int firstDictionaryColumn = 0, int? lastDictionaryColumn = null)
         {
             ParameterK = parameterK;
             _dictionary = dictionary;
+            FirstDictionaryColumn = firstDictionaryColumn;
+            LastDictionaryColumn = lastDictionaryColumn;
         }
 
         public List<Person> GetAnonymizedData(IEnumerable<Person> people)
@@ -59,7 +63,9 @@ namespace Anonimizator.Algorithms
                         change = false;
                         foreach (var row in _dictionary)
                         {
-                            for (int i = 0; !change && i < row.Count - 1; i++)
+                            var numberColumns = LastDictionaryColumn != null && LastDictionaryColumn <= row.Count - 1 ? LastDictionaryColumn : row.Count - 1;
+
+                            for (int i = FirstDictionaryColumn; !change && i < numberColumns; i++)
                             {
                                 if (person.Job == row[i])
                                 {

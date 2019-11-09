@@ -88,6 +88,7 @@
     <Compile Include="Helpers\ConstantStrings.cs" />
     <Compile Include="Helpers\DataGenerator.cs" />
     <Compile Include="Helpers\LinqExtensions.cs" />
+    <Compile Include="Helpers\Permutation.cs" />
     <Compile Include="Helpers\Reflections.cs" />
     <Compile Include="Models\PeopleGroup.cs" />
     <Compile Include="Services\FileService.cs" />
