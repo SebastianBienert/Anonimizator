@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Anonimizator.Helpers;
 using Anonimizator.Models;
 
 namespace Anonimizator.Algorithms
 {
-    public class CharacterMasking : IKAnonimization
+    public class CharacterMasking<T> : IKAnonimization
     {
-        private string ColumnName { get; }
+        private readonly Expression<Func<Person, T>> _anonimizedExpression;
 
-        public CharacterMasking()
+        public CharacterMasking(Expression<Func<Person, T>> anonimizedProperty)
         {
-            ColumnName = "Gender";
-        }
-
-        public CharacterMasking(string columnName)
-        {
-            ColumnName = columnName;
+            _anonimizedExpression = anonimizedProperty;
         }
 
         public List<Person> GetAnonymizedData(IEnumerable<Person> people)
         {
-            return people.Select(p =>
+            var propertyInfo = Reflections.GetPropertyInfo(new Person(), _anonimizedExpression);
+            var anonymzedData = people.Select(p =>
                 {
-                    p.GetType().GetProperty(ColumnName).SetValue(p, "*");
-                    return p;
+                    var clone = p.Clone();
+                    propertyInfo.SetValue(clone, Convert.ChangeType("*", propertyInfo.PropertyType), null);
+                    return clone;
                 })
                 .ToList();
+            return anonymzedData;
         }
     }
 }

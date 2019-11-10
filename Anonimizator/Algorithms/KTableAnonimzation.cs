@@ -11,11 +11,11 @@ namespace Anonimizator.Algorithms
     public class KTableAnonimzation : IKAnonimization
     {
         private readonly int _maxNumberAddToParameterK = 40;
-        private int _parameterK { get; }
+        private readonly int _parameterK;
         private int _stepKTableAnonimization;
 
-        private List<List<string>> _cityDictionary;
-        private List<List<string>> _jobDictionary;
+        private readonly List<List<string>> _cityDictionary;
+        private readonly List<List<string>> _jobDictionary;
 
         private readonly (string algorithmName, string firstParameter, string secondParameter) _firstKTableAnonimizationAlgorithm = ("Gender", "", "");
         private readonly IEnumerable<(string algorithmName, string firstParameter, string secondParameter)> _middleKTableAnonimizationAlgorithms =
@@ -135,7 +135,7 @@ namespace Anonimizator.Algorithms
             switch (kAnonimizationAlgorithm.algorithmName)
             {
                 case "Age":
-                    return new KAgeAnonimzation_V2(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
+                    return new KNumberAnonimization<string>(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm), p => p.Age);
                 case "City":
                     return SelectCityAlgorithm(kAnonimizationAlgorithm);
                 case "FirstName":
@@ -147,11 +147,11 @@ namespace Anonimizator.Algorithms
                 case "Job":
                     return SelectJobAlgorithm(kAnonimizationAlgorithm);
                 case "Gender":
-                    return new CharacterMasking();
+                    return new CharacterMasking<string>(p => p.Gender);
                 case "CharacterMasking":
-                    return new CharacterMasking(kAnonimizationAlgorithm.firstParameter);
+                    //return new CharacterMasking(kAnonimizationAlgorithm.firstParameter);
                 default:
-                    return new KAgeAnonimzation_V2(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
+                    return new KNumberAnonimization<string>(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm), p => p.Age);
             }
         }
 

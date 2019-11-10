@@ -49,8 +49,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharacterMaskingTests.cs" />
     <Compile Include="KAttributeLengthAnonimizationTests.cs" />
-    <Compile Include="KAgeAnonimizationTests.cs" />
+    <Compile Include="KNumberAnonimizationTests.cs" />
     <Compile Include="KCommonStartMaskingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

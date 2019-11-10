@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Anonimzator.Tests
 {
     [TestClass]
-    public class KAgeAnonimizationTests
+    public class KNumberAnonimizationTests
     {
         private List<Person> _people = new List<Person>()
         {
@@ -28,26 +28,25 @@ namespace Anonimzator.Tests
         [TestMethod]
         public void GivenEmptyPeopleList_ShouldReturn_EmptyList()
         {
-            //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(2);
-
-            //Act
+            var ageAnonimizator = new KNumberAnonimization<string>(2, p => p.Age);
             var anonymzed = ageAnonimizator.GetAnonymizedData(new List<Person>());
-
-            //Assert
             Assert.IsTrue(!anonymzed.Any());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GivenInvalidData_ShouldThrowException()
+        {
+            var invalidData =_people.Union(new List<Person> {new Person("K", "Malarz", "Olawa", "Julia", "Wojcik", "invalid")});
+            var ageAnonimizator = new KNumberAnonimization<string>(1, p => p.Age);
+            var anonymzed = ageAnonimizator.GetAnonymizedData(invalidData);
         }
 
         [TestMethod]
         public void GivenKParameterOne_ShouldReturnTheSameList()
         {
-            //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(1);
-
-            //Act
+            var ageAnonimizator = new KNumberAnonimization<string>(1, p => p.Age);
             var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
-
-            //Assert
             Assert.IsTrue(anonymzed.All(p => p.Age == _people.First(x => x.FirstName == p.FirstName && x.Surname == p.Surname).Age));
         }
 
@@ -58,12 +57,8 @@ namespace Anonimzator.Tests
         [DataTestMethod]
         public void GivenKParameter_GreaterThan_1_ShouldReturnAnonymyzedList(int parameterK)
         {
-            //Arrange
-            var ageAnonimizator = new KAgeAnonimzation_V2(parameterK);
-            //Act
+            var ageAnonimizator = new KNumberAnonimization<string>(parameterK, p => p.Age);
             var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
-            //Assert
-
             Assert.AreEqual(_people.Count, anonymzed.Count);
             //All Groups have at least K people
             Assert.IsTrue(anonymzed.GroupBy(x => x.Age).Select(g => g.Count()).All(c => c >= parameterK));   
@@ -78,12 +73,8 @@ namespace Anonimzator.Tests
         [DataTestMethod]
         public void MATI_GivenKParameter_GreaterThan_1_ShouldReturnAnonymyzedList(int parameterK)
         {
-            //Arrange
             var ageAnonimizator = new KAgeAnonimization(parameterK);
-            //Act
             var anonymzed = ageAnonimizator.GetAnonymizedData(_people);
-            //Assert
-
             Assert.AreEqual(_people.Count, anonymzed.Count);
             //All Groups have at least K people
             Assert.IsTrue(anonymzed.GroupBy(x => x.Age).Select(g => g.Count()).All(c => c >= parameterK));
@@ -95,11 +86,10 @@ namespace Anonimzator.Tests
         {
             var groups = people.Select(p => p.Age).Distinct();
             var numbersUsed = groups.SelectMany(g => Regex.Matches(g, @"\d+").OfType<Match>()
-                                                                         .Select(m => Convert.ToInt32(m.Value)))
+                                                          .Select(m => Convert.ToInt32(m.Value)))
                                     .ToList();
 
             return numbersUsed.Count != numbersUsed.Distinct().Count();
-
         }
 
 
