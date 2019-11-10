@@ -10,8 +10,12 @@ namespace Anonimizator.Algorithms
 {
     public class KTableAnonimzation : IKAnonimization
     {
+        private readonly int NumberAddToParameterK = 40;
         public int ParameterK { get; }
         private int stepKTableAnonimization;
+
+        private List<List<string>> _cityDictionary;
+        private List<List<string>> _jobDictionary;
 
         private (string algorithmName, string firstParameter, string secondParameter) firstAlgorithm = ("Gender", "", "");
         private IEnumerable<(string algorithmName, string firstParameter, string secondParameter)> _queueKTableAnonimization =
@@ -20,10 +24,8 @@ namespace Anonimizator.Algorithms
                 ("Surname" , "", ""),
                 ("FirstName" , "", ""),
                 ("Age" , "", ""),
-                ("City" , "0", "1"),
-                ("Job" , "0", "1"),
-                ("City" , "1", "2"),
-                ("Job" , "1", "2")
+                ("City" , "", ""),
+                ("Job" , "", "")
             };
 
         private List<(string algorithmName, string firstParameter, string secondParameter)> _queueEndKTableAnonimization =
@@ -35,12 +37,7 @@ namespace Anonimizator.Algorithms
                 ("CharacterMasking" , "City", ""),
                 ("CharacterMasking" , "Job", "")
             };
-
-        private List<List<string>> _cityDictionary;
-        private List<List<string>> _jobDictionary;
         private List<List<(string algorithmName, string firstParameter, string secondParameter)>> _allPermutation = new List<List<(string algorithmName, string firstParameter, string secondParameter)>>();
-
-        private List<(string algorithmName, string firstParameter, string secondParameter)> _selectedAlgorithmPermutation;
 
         public KTableAnonimzation(int parameterK, List<List<string>> cityDictionary, List<List<string>> jobDictionary)
         {
@@ -48,47 +45,69 @@ namespace Anonimizator.Algorithms
             ParameterK = parameterK;
             _cityDictionary = cityDictionary;
             _jobDictionary = jobDictionary;
+            CreateListAlgorithms();
+        }
+
+        private void CreateListAlgorithms()
+        {
             var tmp = Permutation.GetPermutations(_queueKTableAnonimization).ToList();
-            foreach (var e in tmp)
+
+            // dodajemy do rozpatrywanych algorytmów takie gdzie K dla kolumn Age, Surname i FirstName jest większe
+            for (int i = 0; i <= NumberAddToParameterK; i++)
             {
-                var permutation = e.ToList();
-                permutation.Insert(0, firstAlgorithm);
-                permutation.AddRange(_queueEndKTableAnonimization);
-                _allPermutation.Add(permutation);
+                foreach (var e in tmp)
+                {
+                    var permutation = e.ToList();
+                    permutation.Insert(0, firstAlgorithm);
+                    permutation.AddRange(_queueEndKTableAnonimization);
+                    var result = permutation.Select(p =>
+                    {
+                        if (p.algorithmName == "Age" || p.algorithmName == "Surname" || p.algorithmName == "FirstName")
+                            p.firstParameter = i.ToString();
+                        return p;
+                    }).ToList();
+                    _allPermutation.Add(result);
+                }
             }
         }
 
         public List<Person> GetAnonymizedData(IEnumerable<Person> people)
         {
-            SearchForTheBestPermutation(people);
-
-            while (CheckConditionOfKAnonimization(people.ToList(), _selectedAlgorithmPermutation))
-            {
-                people = PerformAnotherAnonimizationMethod(people.ToList(), _selectedAlgorithmPermutation);
-            }
-
-            return people.ToList();
+            return PerformAnonimization(people, SearchForTheBestPermutation(people)).ToList();
         }
 
-        private void SearchForTheBestPermutation(IEnumerable<Person> people)
+        private List<(string, string, string)> SearchForTheBestPermutation(IEnumerable<Person> people)
         {
             var stepsBestAlgoritms = Int32.MaxValue;
+            List<(string, string, string)> selectedAlgorithmsList = new List<(string, string, string)>();
             foreach (var algorithmsList in _allPermutation)
             {
-                var tmpPeopleList = people.ToList();
-                while (CheckConditionOfKAnonimization(tmpPeopleList, algorithmsList))
-                {
-                    tmpPeopleList = PerformAnotherAnonimizationMethod(tmpPeopleList, algorithmsList);
-                }
+                if (algorithmsList.Any(p =>
+                    (p.algorithmName == "Age" || p.algorithmName == "Surname" || p.algorithmName == "FirstName") &&
+                    Int32.Parse(p.firstParameter) + ParameterK > people.Count()))
+                    continue;
+
+                PerformAnonimization(people, algorithmsList);
 
                 if (stepKTableAnonimization < stepsBestAlgoritms)
                 {
-                    _selectedAlgorithmPermutation = algorithmsList;
+                    selectedAlgorithmsList = algorithmsList;
                     stepsBestAlgoritms = stepKTableAnonimization;
                 }
 
                 stepKTableAnonimization = 0;
             }
+
+            return selectedAlgorithmsList;
+        }
+
+        public IEnumerable<Person> PerformAnonimization(IEnumerable<Person> people, List<(string, string, string)> algorithmsList)
+        {
+            while (CheckConditionOfKAnonimization(people.ToList(), algorithmsList))
+            {
+                people = PerformAnotherAnonimizationMethod(people.ToList(), algorithmsList);
+            }
+            return people;
         }
 
         private bool CheckConditionOfKAnonimization(List<Person> people, List<(string algorithmName, string firstParameter, string secondParameter)> algorithmsList)
@@ -96,17 +115,19 @@ namespace Anonimizator.Algorithms
             if (stepKTableAnonimization >= algorithmsList.Count)
                 return false;
 
-            var tmp = people.GroupBy(p => p.City + p.Age + p.FirstName + p.Job + p.Surname + p.Gender, 
+            var grups = people.GroupBy(p => p.City + p.Age + p.FirstName + p.Job + p.Surname + p.Gender, 
                                      p => p, 
                                      (key, g) => new { key = key, elems = g.ToList()});
-            return tmp.Any(g => g.elems.Count < ParameterK);
+            return grups.Any(g => g.elems.Count < ParameterK);
         }
 
-        private List<Person> PerformAnotherAnonimizationMethod(List<Person> people, List<(string algorithmName, string firstParameter, string secondParameter)> algorithmsList)
+        private List<Person> PerformAnotherAnonimizationMethod(List<Person> people, List<(string, string, string)> algorithmsList)
         {
             people = DetermineAlgorithm(algorithmsList).GetAnonymizedData(people);
             return people;
         }
+
+        #region Algorithm selection functions 
 
         private IKAnonimization DetermineAlgorithm(List<(string algorithmName, string firstParameter, string secondParameter)> algorithmsList)
         {
@@ -114,27 +135,58 @@ namespace Anonimizator.Algorithms
             switch (kAnonimizationAlgorithm.algorithmName)
             {
                 case "Age":
-                    return new KAgeAnonimzation_V2(ParameterK);
+                    return new KAgeAnonimzation_V2(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
                 case "City":
-                    return new KCityAnonimization(ParameterK, _cityDictionary, 
-                                                  string.IsNullOrEmpty(kAnonimizationAlgorithm.firstParameter) ? 0 : Int32.Parse(kAnonimizationAlgorithm.firstParameter),
-                                                  string.IsNullOrEmpty(kAnonimizationAlgorithm.secondParameter) ? 0 : Int32.Parse(kAnonimizationAlgorithm.secondParameter));
+                    return SelectCityAlgorithm(kAnonimizationAlgorithm);
                 case "FirstName":
-                    return new KAttributeLengthAnonimization<string>(ParameterK, p => p.FirstName);
+                    return new KAttributeLengthAnonimization<string>(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
+                        p => p.FirstName);
                 case "Surname":
-                    return new CommonStartStringMasking<string>(ParameterK, p => p.Surname);
+                    return new KAttributeLengthAnonimization<string>(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
+                        p => p.Surname);
                 case "Job":
-                    return new KJobAnonimization(ParameterK, _jobDictionary, 
-                                                 string.IsNullOrEmpty(kAnonimizationAlgorithm.firstParameter) ? 0 : Int32.Parse(kAnonimizationAlgorithm.firstParameter),
-                                                 string.IsNullOrEmpty(kAnonimizationAlgorithm.secondParameter) ? 0 : Int32.Parse(kAnonimizationAlgorithm.secondParameter));
+                    return SelectJobAlgorithm(kAnonimizationAlgorithm);
                 case "Gender":
                     return new CharacterMasking();
                 case "CharacterMasking":
                     return new CharacterMasking(kAnonimizationAlgorithm.firstParameter);
                 default:
-                    return new KAgeAnonimization(ParameterK);
+                    return new KAgeAnonimzation_V2(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
             }
         }
 
+        private int CreateNumberAddToParameterK((string, string firstParameter, string) kAnonimizationAlgorithm)
+        {
+            return string.IsNullOrEmpty(kAnonimizationAlgorithm.firstParameter)
+                ? 0
+                : Int32.Parse(kAnonimizationAlgorithm.firstParameter);
+        }
+
+        private IKAnonimization SelectCityAlgorithm((string, string, string) kAnonimizationAlgorithm)
+        {
+            var dictionaryColumnRange = CreateDictionaryColumnRange(kAnonimizationAlgorithm);
+            return new KCityAnonimization(ParameterK, _cityDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
+        }
+
+        private IKAnonimization SelectJobAlgorithm((string, string, string) kAnonimizationAlgorithm)
+        {
+            var dictionaryColumnRange = CreateDictionaryColumnRange(kAnonimizationAlgorithm);
+            return new KJobAnonimization(ParameterK, _jobDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
+        }
+
+        private (int firstColumn, int? endColumn) 
+            CreateDictionaryColumnRange((string, string firstParameter, string secondParameter) kAnonimizationAlgorithm)
+        {
+            var firstColumn = string.IsNullOrEmpty(kAnonimizationAlgorithm.firstParameter)
+                ? 0
+                : Int32.Parse(kAnonimizationAlgorithm.firstParameter);
+
+            var endColumn = string.IsNullOrEmpty(kAnonimizationAlgorithm.secondParameter)
+                ? null
+                : (int?)Int32.Parse(kAnonimizationAlgorithm.secondParameter);
+
+            return (firstColumn, endColumn);
+        }
+        #endregion
     }
 }
