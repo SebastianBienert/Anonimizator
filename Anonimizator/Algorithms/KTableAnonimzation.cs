@@ -10,15 +10,15 @@ namespace Anonimizator.Algorithms
 {
     public class KTableAnonimzation : IKAnonimization
     {
-        private readonly int NumberAddToParameterK = 40;
-        public int ParameterK { get; }
-        private int stepKTableAnonimization;
+        private readonly int _maxNumberAddToParameterK = 40;
+        private int _parameterK { get; }
+        private int _stepKTableAnonimization;
 
         private List<List<string>> _cityDictionary;
         private List<List<string>> _jobDictionary;
 
-        private (string algorithmName, string firstParameter, string secondParameter) firstAlgorithm = ("Gender", "", "");
-        private IEnumerable<(string algorithmName, string firstParameter, string secondParameter)> _queueKTableAnonimization =
+        private readonly (string algorithmName, string firstParameter, string secondParameter) _firstKTableAnonimizationAlgorithm = ("Gender", "", "");
+        private readonly IEnumerable<(string algorithmName, string firstParameter, string secondParameter)> _middleKTableAnonimizationAlgorithms =
             new List<(string algorithmName, string firstParameter, string secondParameter)>()
             {
                 ("Surname" , "", ""),
@@ -28,7 +28,7 @@ namespace Anonimizator.Algorithms
                 ("Job" , "", "")
             };
 
-        private List<(string algorithmName, string firstParameter, string secondParameter)> _queueEndKTableAnonimization =
+        private readonly List<(string algorithmName, string firstParameter, string secondParameter)> _finalKTableAnonimizationAlgorithms =
             new List<(string algorithmName, string firstParameter, string secondParameter)>()
             {
                 ("CharacterMasking" , "Age", ""),
@@ -41,8 +41,8 @@ namespace Anonimizator.Algorithms
 
         public KTableAnonimzation(int parameterK, List<List<string>> cityDictionary, List<List<string>> jobDictionary)
         {
-            stepKTableAnonimization = 0;
-            ParameterK = parameterK;
+            _stepKTableAnonimization = 0;
+            _parameterK = parameterK;
             _cityDictionary = cityDictionary;
             _jobDictionary = jobDictionary;
             CreateListAlgorithms();
@@ -50,16 +50,16 @@ namespace Anonimizator.Algorithms
 
         private void CreateListAlgorithms()
         {
-            var tmp = Permutation.GetPermutations(_queueKTableAnonimization).ToList();
+            var listPermutationKTableAnonimizationAlgorithms = Permutation.GetPermutations(_middleKTableAnonimizationAlgorithms).ToList();
 
             // dodajemy do rozpatrywanych algorytmów takie gdzie K dla kolumn Age, Surname i FirstName jest większe
-            for (int i = 0; i <= NumberAddToParameterK; i++)
+            for (int i = 0; i <= _maxNumberAddToParameterK; i++)
             {
-                foreach (var e in tmp)
+                foreach (var kTableAnonimizationAlgorithms  in listPermutationKTableAnonimizationAlgorithms)
                 {
-                    var permutation = e.ToList();
-                    permutation.Insert(0, firstAlgorithm);
-                    permutation.AddRange(_queueEndKTableAnonimization);
+                    var permutation = kTableAnonimizationAlgorithms.ToList();
+                    permutation.Insert(0, _firstKTableAnonimizationAlgorithm);
+                    permutation.AddRange(_finalKTableAnonimizationAlgorithms);
                     var result = permutation.Select(p =>
                     {
                         if (p.algorithmName == "Age" || p.algorithmName == "Surname" || p.algorithmName == "FirstName")
@@ -84,18 +84,18 @@ namespace Anonimizator.Algorithms
             {
                 if (algorithmsList.Any(p =>
                     (p.algorithmName == "Age" || p.algorithmName == "Surname" || p.algorithmName == "FirstName") &&
-                    Int32.Parse(p.firstParameter) + ParameterK > people.Count()))
+                    Int32.Parse(p.firstParameter) + _parameterK > people.Count()))
                     continue;
 
                 PerformAnonimization(people, algorithmsList);
 
-                if (stepKTableAnonimization < stepsBestAlgoritms)
+                if (_stepKTableAnonimization < stepsBestAlgoritms)
                 {
                     selectedAlgorithmsList = algorithmsList;
-                    stepsBestAlgoritms = stepKTableAnonimization;
+                    stepsBestAlgoritms = _stepKTableAnonimization;
                 }
 
-                stepKTableAnonimization = 0;
+                _stepKTableAnonimization = 0;
             }
 
             return selectedAlgorithmsList;
@@ -110,15 +110,15 @@ namespace Anonimizator.Algorithms
             return people;
         }
 
-        private bool CheckConditionOfKAnonimization(List<Person> people, List<(string algorithmName, string firstParameter, string secondParameter)> algorithmsList)
+        private bool CheckConditionOfKAnonimization(List<Person> people, List<(string, string, string)> algorithmsList)
         {
-            if (stepKTableAnonimization >= algorithmsList.Count)
+            if (_stepKTableAnonimization >= algorithmsList.Count)
                 return false;
 
-            var grups = people.GroupBy(p => p.City + p.Age + p.FirstName + p.Job + p.Surname + p.Gender, 
+            return people.GroupBy(p => p.City + p.Age + p.FirstName + p.Job + p.Surname + p.Gender, 
                                      p => p, 
-                                     (key, g) => new { key = key, elems = g.ToList()});
-            return grups.Any(g => g.elems.Count < ParameterK);
+                                     (key, g) => new { key = key, elems = g.ToList()})
+                         .Any(g => g.elems.Count < _parameterK);
         }
 
         private List<Person> PerformAnotherAnonimizationMethod(List<Person> people, List<(string, string, string)> algorithmsList)
@@ -131,18 +131,18 @@ namespace Anonimizator.Algorithms
 
         private IKAnonimization DetermineAlgorithm(List<(string algorithmName, string firstParameter, string secondParameter)> algorithmsList)
         {
-            var kAnonimizationAlgorithm = algorithmsList[stepKTableAnonimization++];
+            var kAnonimizationAlgorithm = algorithmsList[_stepKTableAnonimization++];
             switch (kAnonimizationAlgorithm.algorithmName)
             {
                 case "Age":
-                    return new KAgeAnonimzation_V2(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
+                    return new KAgeAnonimzation_V2(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
                 case "City":
                     return SelectCityAlgorithm(kAnonimizationAlgorithm);
                 case "FirstName":
-                    return new KAttributeLengthAnonimization<string>(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
+                    return new KAttributeLengthAnonimization<string>(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
                         p => p.FirstName);
                 case "Surname":
-                    return new KAttributeLengthAnonimization<string>(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
+                    return new KAttributeLengthAnonimization<string>(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm),
                         p => p.Surname);
                 case "Job":
                     return SelectJobAlgorithm(kAnonimizationAlgorithm);
@@ -151,7 +151,7 @@ namespace Anonimizator.Algorithms
                 case "CharacterMasking":
                     return new CharacterMasking(kAnonimizationAlgorithm.firstParameter);
                 default:
-                    return new KAgeAnonimzation_V2(ParameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
+                    return new KAgeAnonimzation_V2(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm));
             }
         }
 
@@ -165,13 +165,13 @@ namespace Anonimizator.Algorithms
         private IKAnonimization SelectCityAlgorithm((string, string, string) kAnonimizationAlgorithm)
         {
             var dictionaryColumnRange = CreateDictionaryColumnRange(kAnonimizationAlgorithm);
-            return new KCityAnonimization(ParameterK, _cityDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
+            return new KCityAnonimization(_parameterK, _cityDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
         }
 
         private IKAnonimization SelectJobAlgorithm((string, string, string) kAnonimizationAlgorithm)
         {
             var dictionaryColumnRange = CreateDictionaryColumnRange(kAnonimizationAlgorithm);
-            return new KJobAnonimization(ParameterK, _jobDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
+            return new KJobAnonimization(_parameterK, _jobDictionary, dictionaryColumnRange.firstColumn, dictionaryColumnRange.endColumn);
         }
 
         private (int firstColumn, int? endColumn) 
