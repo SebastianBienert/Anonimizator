@@ -28,7 +28,7 @@ namespace Anonimizator.Algorithms
             if (people == null || !people.Any())
                 return new List<Person>();
 
-            var groupsOrderdByLength = people.GroupBy(p =>
+            var groupsOrderedByLength = people.GroupBy(p =>
                 {
                     var propertyInfo = Reflections.GetPropertyInfo(p, _anonimizedExpression);
                     return propertyInfo.GetValue(p).ToString().Length;
@@ -44,7 +44,7 @@ namespace Anonimizator.Algorithms
             var result = new List<List<Person>>();
             var currentIntervalGroup = new List<Person>();
 
-            foreach (var group in groupsOrderdByLength)
+            foreach (var group in groupsOrderedByLength)
             {
                 if (currentIntervalGroup.Count < ParameterK)
                 {

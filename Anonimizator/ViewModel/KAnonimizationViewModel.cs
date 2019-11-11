@@ -79,7 +79,7 @@ namespace Anonimizator.ViewModel
                 case "Job":
                     return new KJobAnonimization(ParameterK, _jobDictionary);
                 case "All columns":
-                    return new KTableAnonimzation(ParameterK, _cityDictionary, _jobDictionary);
+                    return new KCombinedAnonimization(ParameterK, _fileService, p => p.FirstName, p => p.Surname, p => p.Age);
                 default:
                     return new KAgeAnonimization(ParameterK);
             }

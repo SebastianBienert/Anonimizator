@@ -47,6 +47,8 @@ namespace Anonimizator.ViewModel
             SimpleIoc.Default.Register<KAnonimizationViewModel>();
             SimpleIoc.Default.Register<AnonimizationViewModel>();
             SimpleIoc.Default.Register<WorkPanelViewModel>();
+            SimpleIoc.Default.Register<PIDKAnonimizationViewModel>();
+
             SimpleIoc.Default.Register<FileService>(); 
         }
 
@@ -79,6 +81,14 @@ namespace Anonimizator.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<WorkPanelViewModel>();
+            }
+        }
+
+        public PIDKAnonimizationViewModel PIDKAnonimizationViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<PIDKAnonimizationViewModel>();
             }
         }
 

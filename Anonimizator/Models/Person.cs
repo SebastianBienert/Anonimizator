@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anonimizator.Models
 {
-    public class Person
+    public class Person : ICloneable
     {
         public string Gender { get; set; }
 
@@ -40,6 +40,9 @@ namespace Anonimizator.Models
             return new Person(this.Gender, this.Job, this.City, this.FirstName, this.Surname, this.Age);
         }
 
-
+        object ICloneable.Clone()
+        {
+            return new Person(this.Gender, this.Job, this.City, this.FirstName, this.Surname, this.Age);
+        }
     }
 }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Anonimizator"
+        xmlns:xamLs="clr-namespace:Anonimizator.XAMLs"
         mc:Ignorable="d"
         Title="Anonimizator"
         DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}"
@@ -17,8 +18,12 @@
         <TabItem Header="Anonimizacja">
             <local:Anonimization />
         </TabItem>
+        <TabItem Header="PID K-Anonimizacja">
+            <xamLs:PIDKAnonimization />
+        </TabItem>
         <TabItem Header="Robocze">
             <local:WorkPanel />
         </TabItem>
+        
     </TabControl>
 </Window>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Anonimizator.Models;
 
 namespace Anonimizator.Helpers
 {
@@ -32,5 +34,15 @@ namespace Anonimizator.Helpers
 
             return propInfo;
         }
+
+        public static string GetPersonProperties(this Person person, params Expression<Func<Person, object>>[] properites)
+        {
+            //TODO SOMETHING BETTER - return object with only specified properties
+            var result = properites.Aggregate(new StringBuilder(),
+                                            (sum, prop) => sum.Append(GetPropertyInfo(person, prop).GetValue(person).ToString()))
+                                   .ToString();
+            return result;
+        }
+
     }
 }
