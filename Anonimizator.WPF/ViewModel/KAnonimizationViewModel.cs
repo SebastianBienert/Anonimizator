@@ -75,7 +75,8 @@ namespace Anonimizator.WPF.ViewModel
                 case "Job":
                     return new KJobAnonimization(ParameterK, _jobDictionary);
                 case "All columns":
-                    return new KCombinedAnonimization(ParameterK, _jobDictionary, _cityDictionary, p => p.FirstName, p => p.Surname, p => p.Age);
+                    return new KCombinedAnonimization(ParameterK, _jobDictionary, _cityDictionary,
+                        p => p.FirstName, p => p.Surname, p => p.Age, p => p.Job, p => p.City, p => p.Gender);
                 default:
                     return new KAgeAnonimization(ParameterK);
             }
