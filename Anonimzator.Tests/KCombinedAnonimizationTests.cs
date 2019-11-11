@@ -29,17 +29,22 @@ namespace Anonimzator.Tests
         };
 
         private readonly List<Person> _peopleFromFile;
+        private List<List<string>> _cityDictionary;
+        private List<List<string>> _jobDictionary;
 
         public KCombinedAnonimizationTests()
         {
-            _peopleFromFile = new FileService().GetPeopleData(ConstantStrings.FILE_WITH_DATA);
+            var fileService = new FileService();
+            _peopleFromFile = fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA);
+            _cityDictionary = fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
+            _jobDictionary = fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
         }
         
 
         [TestMethod]
         public void GivenEmptyPeopleList_ShouldReturn_EmptyList()
         {
-            var algorithm = new KCombinedAnonimization(3, new FileService(), p => p.FirstName, p => p.Surname, p => p.Age);
+            var algorithm = new KCombinedAnonimization(3, _jobDictionary, _cityDictionary, p => p.FirstName, p => p.Surname, p => p.Age);
             var anonymized = algorithm.GetAnonymizedData(new List<Person>());
             Assert.IsTrue(!anonymized.Any());
         }
@@ -48,7 +53,7 @@ namespace Anonimzator.Tests
         public void GivenKParameterOne_ShouldReturnTheSameList()
         {
             var pid = new Expression<Func<Person, object>>[] { p => p.FirstName, p => p.Surname, p => p.Age };
-            var algorithm = new KCombinedAnonimization(1, new FileService(), pid);
+            var algorithm = new KCombinedAnonimization(1, _jobDictionary, _cityDictionary, pid);
             var anonymzed = algorithm.GetAnonymizedData(_people);
             Assert.IsTrue(_people.All(p => anonymzed.Exists(x => x.FirstName == p.FirstName && x.Surname == p.Surname && x.Age == p.Age)));
         }
@@ -57,14 +62,16 @@ namespace Anonimzator.Tests
         [DataRow(3)]
         [DataRow(4)]
         [DataRow(5)]
+        [DataRow(6)]
+        [DataRow(7)]
+        [DataRow(8)]
         [DataTestMethod]
         public void GivenKParameter_GreaterThan_1_ShouldReturnAnonymizedList(int parameterK)
         {
             var pid = new Expression<Func<Person, object>>[] { p => p.FirstName, p => p.Surname, p => p.Age };
-            var algorithm = new KCombinedAnonimization(parameterK, new FileService(), pid);
+            var algorithm = new KCombinedAnonimization(parameterK, _jobDictionary, _cityDictionary, pid);
 
             var anonymzed = algorithm.GetAnonymizedData(_people);
-
 
             Assert.AreEqual(_people.Count, anonymzed.Count);
             //All Groups have at least K people
@@ -85,10 +92,9 @@ namespace Anonimzator.Tests
         public void GivenKParameter_GreaterThan_1_AndFullPID_ShouldReturnAnonymizedList(int parameterK)
         {
             var pid = new Expression<Func<Person, object>>[] { p => p.FirstName, p => p.Surname, p => p.Age, p => p.Job, p => p.City, p => p.Gender };
-            var algorithm = new KCombinedAnonimization(parameterK, new FileService(), pid);
+            var algorithm = new KCombinedAnonimization(parameterK, _jobDictionary, _cityDictionary, pid);
 
             var anonymzed = algorithm.GetAnonymizedData(_people);
-
 
             Assert.AreEqual(_people.Count, anonymzed.Count);
             //All Groups have at least K people
@@ -109,7 +115,7 @@ namespace Anonimzator.Tests
         public void GivenKParameter_GreaterThan_1_AndDataFromFile_ShouldReturnAnonymizedList(int parameterK)
         {
             var pid = new Expression<Func<Person, object>>[] { p => p.FirstName, p => p.Surname };
-            var algorithm = new KCombinedAnonimization(parameterK, new FileService(), pid);
+            var algorithm = new KCombinedAnonimization(parameterK, _jobDictionary, _cityDictionary, pid);
 
             var anonymzed = algorithm.GetAnonymizedData(_peopleFromFile);
 

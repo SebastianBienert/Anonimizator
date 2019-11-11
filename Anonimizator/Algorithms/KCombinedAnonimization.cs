@@ -13,17 +13,23 @@ namespace Anonimizator.Algorithms
 {
     public class KCombinedAnonimization : IKAnonimization
     {
-        private readonly FileService _fileService;
         public int ParameterK { get; }
         public List<Func<Person, object>> _properties { get; set; }
         public List<Expression<Func<Person, object>>> _expressions { get; set; }
+        private readonly AlgorithmsEnumerator _algorithmsEnumerator;
 
-        public KCombinedAnonimization(int parameterK, FileService fileService, params Expression<Func<Person, object>>[] pidProperties)
+        public KCombinedAnonimization(int parameterK, List<List<string>> jobDictionary,
+            List<List<string>> cityDictionary, params Expression<Func<Person, object>>[] pidProperties)
         {
-            _fileService = fileService;
             ParameterK = parameterK;
             _expressions = pidProperties.ToList();
             _properties = pidProperties.Select(x => x.Compile()).ToList();
+            _algorithmsEnumerator = new AlgorithmsEnumeratorBuilder()
+                .SetMaximumKParameter(100)
+                .SetPID(pidProperties)
+                .AddDictionary(p => p.City, cityDictionary)
+                .AddDictionary(p => p.Job, jobDictionary)
+                .Build();
         }
 
         public List<Person> GetAnonymizedData(IEnumerable<Person> people)
@@ -32,9 +38,8 @@ namespace Anonimizator.Algorithms
                 return new List<Person>();
 
             var groups = GetGroupedPeople(people);
-            var algoFactory = new KAnonimizationFactory(100, _fileService, _expressions.ToArray());
 
-            foreach (var algorithms in algoFactory)
+            foreach (var algorithms in _algorithmsEnumerator)
             {
                 var anonymzedData = algorithms.Aggregate(people.Clone(), (acc, algo) => algo.GetAnonymizedData(acc));
                 groups = GetGroupedPeople(anonymzedData);

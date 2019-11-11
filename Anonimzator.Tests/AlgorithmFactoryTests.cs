@@ -23,20 +23,20 @@ namespace Anonimzator.Tests
         public void GivenPropeties_ShouldReturnAllCombinations()
         {
             var collection = new List<List<IKAnonimization>>();
-            var algoFactory = new KAnonimizationFactory(2, new FileService(), _pidProperties);
+            var algoFactory = new AlgorithmsEnumerator(2, null, _pidProperties);
             foreach (var prop in algoFactory)
             {
                 collection.Add(prop);
             }
 
-            Assert.IsTrue(collection.Count == (1 << _pidProperties.Length) - 1);
+            Assert.IsTrue(collection.Count == (1 << _pidProperties.Length));
         }
 
         [TestMethod]
         public void GivenPropeties_ShouldReturnAllCombinationsUsingWhileLoop()
         {
             var collection = new List<List<IKAnonimization>>();
-            var algoFactory = new KAnonimizationFactory(2, new FileService(), _pidProperties);
+            var algoFactory = new AlgorithmsEnumerator(2, null, _pidProperties);
 
             using (var algosIterator = algoFactory.GetEnumerator())
             {
@@ -45,7 +45,7 @@ namespace Anonimzator.Tests
                     collection.Add(algosIterator.Current);
                 }
             }
-            Assert.IsTrue(collection.Count == (1 << _pidProperties.Length) - 1);
+            Assert.IsTrue(collection.Count == (1 << _pidProperties.Length));
         }
 
 

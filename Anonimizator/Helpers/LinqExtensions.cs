@@ -17,7 +17,7 @@ namespace Anonimizator.Helpers
         {
             int comboCount = (1 << list.Count) - 1;
             List<List<T>> result = new List<List<T>>();
-            for (int i = 1; i < comboCount + 1; i++)
+            for (int i = 0; i < comboCount + 1; i++)
             {
                 // make each combo here
                 result.Add(new List<T>());

@@ -99,11 +99,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithms\AlgorithmsEnumeratorBuilder.cs" />
     <Compile Include="Algorithms\CharacterMasking.cs" />
     <Compile Include="Algorithms\CommonStartStringMasking.cs" />
     <Compile Include="Algorithms\IKAnonimization.cs" />
     <Compile Include="Algorithms\KAgeAnonimization.cs" />
-    <Compile Include="Algorithms\KAnonimizationFactory.cs" />
+    <Compile Include="Algorithms\AlgorithmsEnumerator.cs" />
     <Compile Include="Algorithms\KCombinedAnonimization.cs" />
     <Compile Include="Algorithms\KTableAnonimzation.cs" />
     <Compile Include="Algorithms\KNumberAnonimization.cs" />
@@ -123,7 +124,6 @@
     <Compile Include="XAMLs\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Enums\TypeAnonimizationColumn.cs" />
     <Compile Include="XAMLs\KAnonimization.xaml.cs">
       <DependentUpon>KAnonimization.xaml</DependentUpon>
     </Compile>

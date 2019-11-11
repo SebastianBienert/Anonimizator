@@ -21,8 +21,8 @@ namespace Anonimizator.ViewModel
     {
         private readonly FileService _fileService;
         private IKAnonimization _anonimizationAlgortihm;
-        private List<List<string>> _cityDictionary;
-        private List<List<string>> _jobDictionary;
+        private readonly List<List<string>> _cityDictionary;
+        private readonly List<List<string>> _jobDictionary;
 
         public KAnonimizationViewModel(FileService fileService)
         {
@@ -79,7 +79,7 @@ namespace Anonimizator.ViewModel
                 case "Job":
                     return new KJobAnonimization(ParameterK, _jobDictionary);
                 case "All columns":
-                    return new KCombinedAnonimization(ParameterK, _fileService, p => p.FirstName, p => p.Surname, p => p.Age);
+                    return new KCombinedAnonimization(ParameterK, _jobDictionary, _cityDictionary, p => p.FirstName, p => p.Surname, p => p.Age);
                 default:
                     return new KAgeAnonimization(ParameterK);
             }

@@ -20,14 +20,16 @@ namespace Anonimizator.ViewModel
     public class PIDKAnonimizationViewModel : ViewModelBase
     {
         private readonly FileService _fileService;
-        private static object _lock = new object();
+        private readonly List<List<string>> _cityDictionary;
+        private readonly List<List<string>> _jobDictionary;
 
         public PIDKAnonimizationViewModel(FileService fileService)
         {
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
             ColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job" };
-            BindingOperations.EnableCollectionSynchronization(_columnNames, _lock);
+            _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
+            _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
 
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
             SaveDataCommand = new RelayCommand(SaveData);
@@ -99,7 +101,7 @@ namespace Anonimizator.ViewModel
         private void KAnonimizationAlgorithm()
         {
             var pid = GetPID(SelectedColumns);
-            var _anonimizationAlgortihm = new KCombinedAnonimization(ParameterK, new FileService(), pid);
+            var _anonimizationAlgortihm = new KCombinedAnonimization(ParameterK, _jobDictionary, _cityDictionary, pid);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
         }
 
