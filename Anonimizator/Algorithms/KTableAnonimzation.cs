@@ -149,7 +149,7 @@ namespace Anonimizator.Algorithms
                 case "Gender":
                     return new CharacterMasking<string>(p => p.Gender);
                 case "CharacterMasking":
-                    //return new CharacterMasking(kAnonimizationAlgorithm.firstParameter);
+                    return new CharacterMasking<string>(kAnonimizationAlgorithm.firstParameter);
                 default:
                     return new KNumberAnonimization<string>(_parameterK + CreateNumberAddToParameterK(kAnonimizationAlgorithm), p => p.Age);
             }
