@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonimizator", "Anonimizator\Anonimizator.csproj", "{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonimzator.Tests", "Anonimzator.Tests\Anonimzator.Tests.csproj", "{82588A37-8429-460F-B403-9CB54E626DAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anonimizator.Core", "Anonimizator.Core\Anonimizator.Core.csproj", "{18866D33-9F97-4DB7-AD10-855999C94496}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonimizator.WPF", "Anonimizator.WPF\Anonimizator.WPF.csproj", "{7A25EEA3-09D1-44A9-8651-ED1C38080BFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82588A37-8429-460F-B403-9CB54E626DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82588A37-8429-460F-B403-9CB54E626DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82588A37-8429-460F-B403-9CB54E626DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82588A37-8429-460F-B403-9CB54E626DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18866D33-9F97-4DB7-AD10-855999C94496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18866D33-9F97-4DB7-AD10-855999C94496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18866D33-9F97-4DB7-AD10-855999C94496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18866D33-9F97-4DB7-AD10-855999C94496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A25EEA3-09D1-44A9-8651-ED1C38080BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A25EEA3-09D1-44A9-8651-ED1C38080BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A25EEA3-09D1-44A9-8651-ED1C38080BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A25EEA3-09D1-44A9-8651-ED1C38080BFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

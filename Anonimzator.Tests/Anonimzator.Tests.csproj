@@ -50,21 +50,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgorithmFactoryTests.cs" />
-    <Compile Include="CharacterMaskingTests.cs" />
+    <Compile Include="AlgorithmTests\CharacterMaskingTests.cs" />
     <Compile Include="ExpressionDictionaryTests.cs" />
-    <Compile Include="KCombinedAnonimizationTests.cs" />
-    <Compile Include="KAttributeLengthAnonimizationTests.cs" />
-    <Compile Include="KNumberAnonimizationTests.cs" />
-    <Compile Include="KCommonStartMaskingTests.cs" />
+    <Compile Include="AlgorithmTests\KCombinedAnonimizationTests.cs" />
+    <Compile Include="AlgorithmTests\KAttributeLengthAnonimizationTests.cs" />
+    <Compile Include="AlgorithmTests\KNumberAnonimizationTests.cs" />
+    <Compile Include="AlgorithmTests\KCommonStartMaskingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Anonimizator\Anonimizator.csproj">
-      <Project>{442DB384-BA6A-4E19-A2A6-E5A17B4610BD}</Project>
-      <Name>Anonimizator</Name>
+    <ProjectReference Include="..\Anonimizator.Core\Anonimizator.Core.csproj">
+      <Project>{18866d33-9f97-4db7-ad10-855999c94496}</Project>
+      <Name>Anonimizator.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

@@ -1,0 +1,28 @@
+﻿<Window x:Class="Anonimizator.WPF.Views.AnonimizatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Anonimizator.WPF.Views"
+        mc:Ignorable="d"
+        Title="Anonimizator"
+        DataContext="{Binding AnonimizatorViewModel, Source={StaticResource Locator}}"
+        Width="820">
+    <TabControl HorizontalAlignment="Left" Height="Auto" Width="800">
+        <TabItem Header="K-anonimizacja">
+            <Grid>
+                <views:KAnonimization />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Anonimizacja">
+            <views:Anonimization />
+        </TabItem>
+        <TabItem Header="PID K-Anonimizacja">
+            <views:PIDKAnonimization />
+        </TabItem>
+        <TabItem Header="Robocze">
+            <views:WorkPanel />
+        </TabItem>
+        
+    </TabControl>
+</Window>
