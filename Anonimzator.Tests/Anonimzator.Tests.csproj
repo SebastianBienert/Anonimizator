@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AlgorithmFactoryTests.cs" />
     <Compile Include="AlgorithmTests\CharacterMaskingTests.cs" />
+    <Compile Include="AlgorithmTests\XYAnonimizationTests.cs" />
     <Compile Include="ExpressionDictionaryTests.cs" />
     <Compile Include="AlgorithmTests\KCombinedAnonimizationTests.cs" />
     <Compile Include="AlgorithmTests\KAttributeLengthAnonimizationTests.cs" />

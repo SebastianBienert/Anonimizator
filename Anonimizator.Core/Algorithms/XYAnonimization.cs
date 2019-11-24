@@ -2,28 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using Anonimizator.Algorithms;
 using Anonimizator.Core.Helpers;
 using Anonimizator.Core.Models;
 
 namespace Anonimizator.Core.Algorithms
 {
-    public class KCombinedAnonimization : IKAnonimization
+    public class XYAnonimization : IKAnonimization
     {
         public int ParameterK { get; }
-        public List<Func<Person, object>> _properties { get; }
-        public List<Expression<Func<Person, object>>> _expressions { get; }
+        public List<Func<Person, object>> _xProperties { get; }
+        public List<Expression<Func<Person, object>>> _xExpressions { get;  }
+        public List<Func<Person, object>> _yProperties { get; }
+        public List<Expression<Func<Person, object>>> _yExpressions { get; }
         private readonly AlgorithmsEnumerator _algorithmsEnumerator;
 
-        public KCombinedAnonimization(int parameterK, List<List<string>> jobDictionary,
-            List<List<string>> cityDictionary, params Expression<Func<Person, object>>[] pidProperties)
+        public XYAnonimization(int parameterK, List<List<string>> jobDictionary,
+            List<List<string>> cityDictionary, IEnumerable<Expression<Func<Person, object>>> xProperties,
+            IEnumerable<Expression<Func<Person, object>>> yProperties)
         {
             ParameterK = parameterK;
-            _expressions = pidProperties.ToList();
-            _properties = pidProperties.Select(x => x.Compile()).ToList();
+            _xExpressions = xProperties.ToList();
+            _xProperties = xProperties.Select(x => x.Compile()).ToList();
+            _yExpressions = yProperties.ToList();
+            _yProperties = yProperties.Select(x => x.Compile()).ToList();
+
+            if (_yExpressions.Intersect(_xExpressions, new ExpressionEqualityComparer()).Any())
+            {
+                throw new Exception("X and Y sets have to be disjoint");
+            }
+
             _algorithmsEnumerator = new AlgorithmsEnumeratorBuilder()
                 .SetMaximumKParameter(100)
-                .SetPID(pidProperties)
+                .SetPID(_xExpressions.ToArray())
                 .AddDictionary(p => p.City, cityDictionary)
                 .AddDictionary(p => p.Job, jobDictionary)
                 .Build();
@@ -43,18 +55,22 @@ namespace Anonimizator.Core.Algorithms
                 if (IsListAnonymized(groups))
                     break;
             }
-  
+
             return groups.SelectMany(x => x.People).ToList();
         }
 
         private bool IsListAnonymized(IEnumerable<PeopleGroup<string>> groups)
         {
-            return groups.All(g => g.Count >= ParameterK);
+            return groups.All(g =>
+            {
+                var yPropertiesGroups = g.People.GroupBy(p => p.GetPersonProperties(_yExpressions.ToArray())).ToList();
+                return yPropertiesGroups.Count >= ParameterK;
+            });
         }
 
         private List<PeopleGroup<string>> GetGroupedPeople(IEnumerable<Person> people)
         {
-            var groups = people.GroupBy(p => p.GetPersonProperties(_expressions.ToArray()))
+            var groups = people.GroupBy(p => p.GetPersonProperties(_xExpressions.ToArray()))
                 .Select(gPeople =>
                 {
                     var group = new PeopleGroup<string>
@@ -69,9 +85,5 @@ namespace Anonimizator.Core.Algorithms
 
             return groups;
         }
-
-
-
-
     }
 }

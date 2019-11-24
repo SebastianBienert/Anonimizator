@@ -54,10 +54,15 @@ namespace Anonimizator.Core.Algorithms
                 }
             }
             //Handle last left group
-            if (currentIntervalGroup.Count < ParameterK)
+            if (currentIntervalGroup.Count < ParameterK && result.Any())
+            {
                 result.Last().AddRange(currentIntervalGroup);
+            }
             else
+            {
                 result.Add(currentIntervalGroup);
+            }
+                
 
             var flattenedResult = result.Select(GetPeopleWithAnnonymazedAgeRange).SelectMany(x => x).ToList();
             return flattenedResult;

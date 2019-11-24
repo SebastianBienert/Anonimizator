@@ -20,6 +20,9 @@
         <TabItem Header="PID K-Anonimizacja">
             <views:PIDKAnonimization />
         </TabItem>
+        <TabItem Header="K-(X-Y) Anonimizacja">
+            <views:XYAnonimization />
+        </TabItem>
         <TabItem Header="Robocze">
             <views:WorkPanel />
         </TabItem>

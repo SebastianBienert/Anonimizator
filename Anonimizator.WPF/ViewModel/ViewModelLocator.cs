@@ -44,6 +44,7 @@ namespace Anonimizator.WPF.ViewModel
             SimpleIoc.Default.Register<AnonimizationViewModel>();
             SimpleIoc.Default.Register<WorkPanelViewModel>();
             SimpleIoc.Default.Register<PIDKAnonimizationViewModel>();
+            SimpleIoc.Default.Register<XYAnonimzationViewModel>();
 
             SimpleIoc.Default.Register<FileService>();
         }
@@ -86,6 +87,11 @@ namespace Anonimizator.WPF.ViewModel
             {
                 return ServiceLocator.Current.GetInstance<PIDKAnonimizationViewModel>();
             }
+        }
+
+        public XYAnonimzationViewModel XYAnonimzationViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<XYAnonimzationViewModel>(); }
         }
 
         public static void Cleanup()

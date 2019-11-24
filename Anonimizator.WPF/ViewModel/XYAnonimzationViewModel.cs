@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Anonimizator.Core.Algorithms;
 using Anonimizator.Core.Helpers;
@@ -15,17 +18,18 @@ using Microsoft.Win32;
 
 namespace Anonimizator.WPF.ViewModel
 {
-    public class PIDKAnonimizationViewModel : ViewModelBase
+    public class XYAnonimzationViewModel : ViewModelBase
     {
         private readonly FileService _fileService;
         private readonly List<List<string>> _cityDictionary;
         private readonly List<List<string>> _jobDictionary;
 
-        public PIDKAnonimizationViewModel(FileService fileService)
+        public XYAnonimzationViewModel(FileService fileService)
         {
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
-            ColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
+            XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
+            YColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
             _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
 
@@ -34,14 +38,25 @@ namespace Anonimizator.WPF.ViewModel
             RestartDataCommand = new RelayCommand(ReadData);
         }
 
-        private ObservableCollection<string> _columnNames;
-        public ObservableCollection<string> ColumnNames
+        private ObservableCollection<string> _xColumnNames;
+        public ObservableCollection<string> XColumnNames
         {
-            get => _columnNames;
+            get => _xColumnNames;
             set
             {
-                _columnNames = value;
-                RaisePropertyChanged(nameof(ColumnNames));
+                _xColumnNames = value;
+                RaisePropertyChanged(nameof(XColumnNames));
+            }
+        }
+
+        private ObservableCollection<string> _yColumnNames;
+        public ObservableCollection<string> YColumnNames
+        {
+            get => _yColumnNames;
+            set
+            {
+                _yColumnNames = value;
+                RaisePropertyChanged(nameof(YColumnNames));
             }
         }
 
@@ -56,14 +71,25 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
-        private IList _selectedColumns;
-        public IList SelectedColumns
+        private IList _xSelectedColumns;
+        public IList XSelectedColumns
         {
-            get => _selectedColumns;
+            get => _xSelectedColumns;
             set
             {
-                _selectedColumns = value;
-                RaisePropertyChanged(nameof(SelectedColumns));
+                _xSelectedColumns = value;
+                RaisePropertyChanged(nameof(XSelectedColumns));
+            }
+        }
+
+        private IList _ySelectedColumns;
+        public IList YSelectedColumns
+        {
+            get => _ySelectedColumns;
+            set
+            {
+                _ySelectedColumns = value;
+                RaisePropertyChanged(nameof(YSelectedColumns));
             }
         }
 
@@ -98,7 +124,7 @@ namespace Anonimizator.WPF.ViewModel
 
         private void KAnonimizationAlgorithm()
         {
-            var pid = GetPID(SelectedColumns);
+            var pid = GetPID(XSelectedColumns);
             var _anonimizationAlgortihm = new KCombinedAnonimization(ParameterK, _jobDictionary, _cityDictionary, pid);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
         }

@@ -78,6 +78,7 @@
     <Compile Include="ViewModel\PIDKAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\WorkPanelViewModel.cs" />
+    <Compile Include="ViewModel\XYAnonimzationViewModel.cs" />
     <Compile Include="Views\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
     </Compile>
@@ -96,6 +97,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\XYAnonimization.xaml.cs">
+      <DependentUpon>XYAnonimization.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Anonimization.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -116,6 +120,10 @@
     <Page Include="Views\WorkPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\XYAnonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
