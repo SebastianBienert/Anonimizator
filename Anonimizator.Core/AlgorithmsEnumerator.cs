@@ -53,6 +53,8 @@ namespace Anonimizator.Algorithms
 
         private IKAnonimization GetAlgorithm(Expression<Func<Person, object>> property)
         {
+            if(_parameterK == _maxKParameterK - 2)
+                return new CharacterMasking<object>(property);
             if(Lambda.Eq(property, p => p.Age))
                 return new KNumberAnonimization<string>(_parameterK, p => p.Age);
             if(Lambda.Eq(property, p => p.FirstName))

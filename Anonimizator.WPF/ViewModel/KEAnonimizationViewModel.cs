@@ -18,18 +18,17 @@ using Microsoft.Win32;
 
 namespace Anonimizator.WPF.ViewModel
 {
-    public class XYAnonimzationViewModel : ViewModelBase
+    public class KEAnonimizationViewModel : ViewModelBase
     {
         private readonly FileService _fileService;
         private readonly List<List<string>> _cityDictionary;
         private readonly List<List<string>> _jobDictionary;
 
-        public XYAnonimzationViewModel(FileService fileService)
+        public KEAnonimizationViewModel(FileService fileService)
         {
             _fileService = fileService;
             People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
             XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
-            YColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
             _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
 
@@ -46,17 +45,6 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _xColumnNames = value;
                 RaisePropertyChanged(nameof(XColumnNames));
-            }
-        }
-
-        private ObservableCollection<string> _yColumnNames;
-        public ObservableCollection<string> YColumnNames
-        {
-            get => _yColumnNames;
-            set
-            {
-                _yColumnNames = value;
-                RaisePropertyChanged(nameof(YColumnNames));
             }
         }
 
@@ -82,17 +70,6 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
-        private IList _ySelectedColumns;
-        public IList YSelectedColumns
-        {
-            get => _ySelectedColumns;
-            set
-            {
-                _ySelectedColumns = value;
-                RaisePropertyChanged(nameof(YSelectedColumns));
-            }
-        }
-
         private int _parameterK;
         public int ParameterK
         {
@@ -101,6 +78,17 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _parameterK = value;
                 RaisePropertyChanged(nameof(ParameterK));
+            }
+        }
+
+        private int _parameterE;
+        public int ParameterE
+        {
+            get { return _parameterE; }
+            set
+            {
+                _parameterE = value;
+                RaisePropertyChanged(nameof(ParameterE));
             }
         }
 
@@ -124,9 +112,8 @@ namespace Anonimizator.WPF.ViewModel
 
         private void KAnonimizationAlgorithm()
         {
-            var xColumns = GetPID(XSelectedColumns);
-            var yColumns = GetPID(YSelectedColumns);
-            var _anonimizationAlgortihm = new XYAnonimization(ParameterK, _jobDictionary, _cityDictionary, xColumns, yColumns);
+            var pid = GetPID(XSelectedColumns);
+            var _anonimizationAlgortihm = new KEAnonimization(ParameterK, ParameterE, _jobDictionary, _cityDictionary, pid, p => p.Age);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
         }
 
@@ -173,5 +160,6 @@ namespace Anonimizator.WPF.ViewModel
 
             return pid.ToArray();
         }
+
     }
 }

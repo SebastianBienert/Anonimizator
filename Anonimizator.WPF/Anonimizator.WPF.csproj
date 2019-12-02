@@ -74,6 +74,7 @@
     <Compile Include="ViewModel\AnonimizationViewModel.cs" />
     <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
     <Compile Include="ViewModel\KAnonimizationViewModel.cs" />
+    <Compile Include="ViewModel\KEAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PIDKAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -87,6 +88,9 @@
     </Compile>
     <Compile Include="Views\KAnonimization.xaml.cs">
       <DependentUpon>KAnonimization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KEAnonimization.xaml.cs">
+      <DependentUpon>KEAnonimization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PIDKAnonimization.xaml.cs">
       <DependentUpon>PIDKAnonimization.xaml</DependentUpon>
@@ -112,6 +116,10 @@
     <Page Include="Views\KAnonimization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\KEAnonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PIDKAnonimization.xaml">
       <Generator>MSBuild:Compile</Generator>
