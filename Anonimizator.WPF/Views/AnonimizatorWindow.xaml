@@ -26,6 +26,9 @@
         <TabItem Header="K-E Anonimizacja">
             <views:KEAnonimization />
         </TabItem>
+        <TabItem Header="A-K Anonimizacja">
+            <views:AKAnonimization />
+        </TabItem>
         <TabItem Header="Robocze">
             <views:WorkPanel />
         </TabItem>
