@@ -87,9 +87,5 @@ namespace Anonimizator.Core.Algorithms
 
             return groups;
         }
-
-
-
-
     }
 }
