@@ -58,7 +58,7 @@ namespace Anonimizator.Core.Algorithms
 
         private bool IsListAnonymized(IEnumerable<PeopleGroup<string>> groups)
         {
-            var eParameterCondition = groups.All(g =>
+            var alphaParameterCondition = groups.All(g =>
             {
                 var numberItems = g.People.Select(_selectedAttributeProperty).Count(p => p.ToString() == AttributeValue);
                 var groupSize = g.People.Select(_selectedAttributeProperty).Count();
@@ -67,7 +67,7 @@ namespace Anonimizator.Core.Algorithms
 
             var kParameterCondition = groups.All(g => g.Count >= ParameterK);
 
-            return eParameterCondition && kParameterCondition;
+            return alphaParameterCondition && kParameterCondition;
         }
 
         private List<PeopleGroup<string>> GetGroupedPeople(IEnumerable<Person> people)

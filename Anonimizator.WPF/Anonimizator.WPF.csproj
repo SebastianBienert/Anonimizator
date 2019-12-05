@@ -49,6 +49,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Controls.DataVisualization.Toolkit.4.0.0.0\lib\net40-Client\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -71,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomListBox.cs" />
+    <Compile Include="ViewModel\AnalysisAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\AnonimizationViewModel.cs" />
     <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
     <Compile Include="ViewModel\KAnonimizationViewModel.cs" />
@@ -83,6 +87,9 @@
     <Compile Include="ViewModel\XYAnonimzationViewModel.cs" />
     <Compile Include="Views\AKAnonimization.xaml.cs">
       <DependentUpon>AKAnonimization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AnalysisAnonimization.xaml.cs">
+      <DependentUpon>AnalysisAnonimization.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Anonimization.xaml.cs">
       <DependentUpon>Anonimization.xaml</DependentUpon>
@@ -110,6 +117,10 @@
       <DependentUpon>XYAnonimization.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AKAnonimization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AnalysisAnonimization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

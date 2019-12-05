@@ -100,9 +100,9 @@ namespace Anonimzator.Tests.AlgorithmTests
                 {
                     var numberSearchValue = g.Count(p => p.Gender == valueAttribute);
                     var groupSize = g.Count();
-                    var eParameterCondition = numberSearchValue / (double)groupSize <= parameterAlpha;
+                    var alphaParameterCondition = numberSearchValue / (double)groupSize <= parameterAlpha;
                     var kParameterCondition = groupSize >= parameterK;
-                    return eParameterCondition && kParameterCondition;
+                    return alphaParameterCondition && kParameterCondition;
                 }));
         }
     }
