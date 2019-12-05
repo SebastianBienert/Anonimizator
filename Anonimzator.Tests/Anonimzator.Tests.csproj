@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RecognitionParameterKTests.cs" />
     <Compile Include="AlgorithmFactoryTests.cs" />
     <Compile Include="AlgorithmTests\CharacterMaskingTests.cs" />
     <Compile Include="AlgorithmTests\AKAnonimizationTests.cs" />

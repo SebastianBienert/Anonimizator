@@ -24,6 +24,7 @@ namespace Anonimizator.WPF.ViewModel
         private readonly FileService _fileService;
         private readonly List<List<string>> _cityDictionary;
         private readonly List<List<string>> _jobDictionary;
+        private RecognitionParameterK _recognitionParameterK;
 
         public ParameterKCalculateViewModel(FileService fileService)
         {
@@ -33,6 +34,7 @@ namespace Anonimizator.WPF.ViewModel
             _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
 
+            _recognitionParameterK = new RecognitionParameterK(People);
             XSelectedColumns = new[] {"Age"};
             CalculateKParameterCommand = new RelayCommand(CalculateKParameter);
             RestartDataCommand = new RelayCommand(ReadData);
@@ -57,6 +59,7 @@ namespace Anonimizator.WPF.ViewModel
             set
             {
                 _people = value;
+                _recognitionParameterK = new RecognitionParameterK(_people);
                 RaisePropertyChanged(nameof(People));
             }
         }
@@ -98,7 +101,7 @@ namespace Anonimizator.WPF.ViewModel
         private void CalculateKParameter()
         {
             var pid = GetPID(XSelectedColumns);
-            ParameterK = AnalysisAnonimizationMethods.CalculateParameterK(People, pid);
+            ParameterK = _recognitionParameterK.CalculateParameterK(pid);
         }
 
         private void ReadData()

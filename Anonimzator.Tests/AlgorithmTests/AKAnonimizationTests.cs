@@ -87,7 +87,6 @@ namespace Anonimzator.Tests.AlgorithmTests
         [DataRow(1, "K")]
         [DataRow(1, "M")]
         [DataTestMethod]
-        [TestMethod]
         public void GivenKParameterFour_AndAlphaParameterGreaterThenHalf_AndValueGenderKOrM_ShouldReturnAnonymizedList(double parameterAlpha, string valueAttribute)
         {
             var parameterK = 4;
