@@ -79,6 +79,7 @@
     <Compile Include="ViewModel\AnonimizatorViewModel.cs" />
     <Compile Include="ViewModel\KAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\AKAnonimizationViewModel.cs" />
+    <Compile Include="ViewModel\ParameterKCalculateViewModel.cs" />
     <Compile Include="ViewModel\KEAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PIDKAnonimizationViewModel.cs" />
@@ -87,6 +88,9 @@
     <Compile Include="ViewModel\XYAnonimzationViewModel.cs" />
     <Compile Include="Views\AKAnonimization.xaml.cs">
       <DependentUpon>AKAnonimization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParameterKCalculate.xaml.cs">
+      <DependentUpon>ParameterKCalculate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AnalysisAnonimization.xaml.cs">
       <DependentUpon>AnalysisAnonimization.xaml</DependentUpon>
@@ -119,6 +123,10 @@
     <Page Include="Views\AKAnonimization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParameterKCalculate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AnalysisAnonimization.xaml">
       <SubType>Designer</SubType>

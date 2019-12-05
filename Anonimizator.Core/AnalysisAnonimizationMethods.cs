@@ -43,5 +43,32 @@ namespace Anonimizator.Core
 
             return groups;
         }
+
+        public static int CalculateParameterK(IEnumerable<Person> people, IEnumerable<Expression<Func<Person, object>>> selectedProperties)
+        {
+            if (people == null || !people.Any())
+                return 0;
+
+            var groups = GetGroupedPeople(people, selectedProperties.ToArray());
+            return groups.Min(g => g.Count);
+        }
+
+        private static List<PeopleGroup<string>> GetGroupedPeople(IEnumerable<Person> people, Expression<Func<Person, object>>[] expressions)
+        {
+            var groups = people.GroupBy(p => p.GetPersonProperties(expressions))
+                .Select(gPeople =>
+                {
+                    var group = new PeopleGroup<string>
+                    (
+                        people: gPeople.ToList(),
+                        value: gPeople.Key
+                    );
+                    return group;
+                })
+                .OrderBy(p => p.Value)
+                .ToList();
+
+            return groups;
+        }
     }
 }

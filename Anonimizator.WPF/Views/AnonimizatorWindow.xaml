@@ -32,6 +32,9 @@
         <TabItem Header="Analiza">
             <views:AnalysisAnonimization />
         </TabItem>
+        <TabItem Header="Wyliczanie parametru K">
+            <views:ParameterKCalculate />
+        </TabItem>
         <TabItem Header="Robocze">
             <views:WorkPanel />
         </TabItem>

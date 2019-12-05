@@ -48,7 +48,8 @@ namespace Anonimizator.WPF.ViewModel
             SimpleIoc.Default.Register<KEAnonimizationViewModel>();
             SimpleIoc.Default.Register<AKAnonimizationViewModel>();
             SimpleIoc.Default.Register<AnalysisAnonimizationViewModel>();
-
+            SimpleIoc.Default.Register<ParameterKCalculateViewModel>();
+            
             SimpleIoc.Default.Register<FileService>();
         }
 
@@ -110,6 +111,11 @@ namespace Anonimizator.WPF.ViewModel
         public AnalysisAnonimizationViewModel AnalysisAnonimizationViewModel
         {
             get { return ServiceLocator.Current.GetInstance<AnalysisAnonimizationViewModel>(); }
+        }
+
+        public ParameterKCalculateViewModel ParameterKCalculateViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<ParameterKCalculateViewModel>(); }
         }
 
         public static void Cleanup()
