@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         mc:Ignorable="d" 
-        d:DesignHeight="800" d:DesignWidth="800"
+        d:DesignHeight="800" d:DesignWidth="1000"
         Background="WhiteSmoke"
         DataContext="{Binding WorkPanelViewModel, Source={StaticResource Locator}}">
 
@@ -45,7 +45,7 @@
                 Content="Generuj dane"/>
 
         <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"
-               Content=" Wygenerowanie danych spowoduje nadpisanie obecnie wykorzystywanego zestawu danych."
+               Content=" Wygenerowane dane zostaną zapisane do tymczasowego bufora."
                FontSize="10"
                FontStyle="Italic"
                HorizontalContentAlignment="Center"

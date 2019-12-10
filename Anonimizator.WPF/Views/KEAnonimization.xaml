@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Anonimizator.WPF.Views"
              xmlns:wpf="clr-namespace:Anonimizator.WPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="1000"
              DataContext="{Binding KEAnonimizationViewModel, Source={StaticResource Locator}}">
     <Grid>
         <Grid.RowDefinitions>
@@ -37,9 +37,13 @@
                 SelectedItemsList="{Binding XSelectedColumns, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.RowSpan="2"
+        <Button Grid.Column="0" Grid.Row="2"
                 Command="{Binding RestartDataCommand}"
                 Content="Przywróć dane"/>
+
+        <Button Grid.Column="0" Grid.Row="3" 
+                Command="{Binding RefreshDataCommand}"
+                Content="Przywróć dane tymczasowe"/>
 
         <Button Grid.Column="1" Grid.Row="2" Grid.RowSpan="2"
                 Command="{Binding SaveDataCommand}"

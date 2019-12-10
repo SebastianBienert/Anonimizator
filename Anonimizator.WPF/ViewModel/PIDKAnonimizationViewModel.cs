@@ -32,6 +32,7 @@ namespace Anonimizator.WPF.ViewModel
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
             SaveDataCommand = new RelayCommand(SaveData);
             RestartDataCommand = new RelayCommand(ReadData);
+            RefreshDataCommand = new RelayCommand(Refresh);
         }
 
         private ObservableCollection<string> _columnNames;
@@ -78,6 +79,26 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
+        private Expression<Func<Person, object>>[] GetPID(IList selectedColumns)
+        {
+            var pid = new List<Expression<Func<Person, object>>>();
+            if (selectedColumns.Contains("Age"))
+                pid.Add(p => p.Age);
+            if (selectedColumns.Contains("Surname"))
+                pid.Add(p => p.Surname);
+            if (selectedColumns.Contains("FirstName"))
+                pid.Add(p => p.FirstName);
+            if (selectedColumns.Contains("City"))
+                pid.Add(p => p.City);
+            if (selectedColumns.Contains("Job"))
+                pid.Add(p => p.Job);
+            if (selectedColumns.Contains("Gender"))
+                pid.Add(p => p.Gender);
+
+            return pid.ToArray();
+        }
+
+        #region Commands
         public ICommand KAnonimizationCommand
         {
             get;
@@ -91,6 +112,12 @@ namespace Anonimizator.WPF.ViewModel
         }
 
         public ICommand RestartDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RefreshDataCommand
         {
             get;
             private set;
@@ -129,23 +156,10 @@ namespace Anonimizator.WPF.ViewModel
             People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
 
-        private Expression<Func<Person, object>>[] GetPID(IList selectedColumns)
+        private void Refresh()
         {
-            var pid = new List<Expression<Func<Person, object>>>();
-            if (selectedColumns.Contains("Age"))
-                pid.Add(p => p.Age);
-            if (selectedColumns.Contains("Surname"))
-                pid.Add(p => p.Surname);
-            if (selectedColumns.Contains("FirstName"))
-                pid.Add(p => p.FirstName);
-            if (selectedColumns.Contains("City"))
-                pid.Add(p => p.City);
-            if (selectedColumns.Contains("Job"))
-                pid.Add(p => p.Job);
-            if (selectedColumns.Contains("Gender"))
-                pid.Add(p => p.Gender);
-
-            return pid.ToArray();
+            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
         }
+        #endregion
     }
 }

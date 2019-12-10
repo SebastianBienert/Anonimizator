@@ -26,7 +26,7 @@ namespace Anonimizator.Core.Helpers
                                        gender.Equals("M") ? maleNames[rand.Next(0, maleNames.Count)] : femaleNames[rand.Next(0, femaleNames.Count)],
                                        surnames[rand.Next(0, surnames.Count)], age));
             }
-            fileService.SavePeopleData(newData, ConstantStrings.FILE_WITH_DATA);
+            fileService.SavePeopleDataInTemporaryFile(newData);
             return newData;
         }
     }

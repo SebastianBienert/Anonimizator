@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-        d:DesignHeight="800" d:DesignWidth="800"
+        d:DesignHeight="800" d:DesignWidth="1000"
         DataContext="{Binding AnonimizationViewModel, Source={StaticResource Locator}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,21 +22,26 @@
         <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
                   ItemsSource="{Binding People, Mode=OneWay}"/>
 
-
-        <ComboBox Grid.Column="0" Grid.Row="1"
+        <ComboBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                  VerticalContentAlignment="Center"
+                  HorizontalContentAlignment="Center"
                   ItemsSource="{Binding ColumnNames}"
                   SelectedItem="{Binding SelectedColumnName}"/>
 
-        <Button Grid.Column="1" Grid.Row="1"
+        <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
                 Command="{Binding CharacterMaskingCommand}"
                 Content="Maskuj znaki"/>
 
-        <Button Grid.Column="2" Grid.Row="1"
+        <Button Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"
                 Command="{Binding SaveDataCommand}"
                 Content="Zapisz"/>
 
         <Button Grid.Column="3" Grid.Row="1"
                 Command="{Binding RestartDataCommand}"
                 Content="Przywróć dane"/>
+
+        <Button Grid.Column="3" Grid.Row="2"
+                Command="{Binding RefreshDataCommand}"
+                Content="Przywróć dane tymczasowe"/>
     </Grid>
 </UserControl>

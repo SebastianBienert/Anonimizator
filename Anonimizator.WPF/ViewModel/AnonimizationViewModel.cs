@@ -26,6 +26,7 @@ namespace Anonimizator.WPF.ViewModel
             SaveDataCommand = new RelayCommand(SaveData);
             CharacterMaskingCommand = new RelayCommand(CharakterMaskingColumn);
             RestartDataCommand = new RelayCommand(ReadData);
+            RefreshDataCommand = new RelayCommand(Refresh);
         }
 
         private ObservableCollection<Person> _people;
@@ -52,6 +53,7 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
+        #region command
         public ICommand SaveDataCommand
         {
             get;
@@ -76,6 +78,12 @@ namespace Anonimizator.WPF.ViewModel
             private set;
         }
 
+        public ICommand RefreshDataCommand
+        {
+            get;
+            private set;
+        }
+
         private void CharakterMaskingColumn()
         {
             //Not effecient, but it works
@@ -84,6 +92,7 @@ namespace Anonimizator.WPF.ViewModel
                 p.GetType().GetProperty(SelectedColumnName).SetValue(p, "*");
                 return p;
             }));
+            _fileService.SavePeopleDataInTemporaryFile(People);
         }
 
         private void SaveData()
@@ -110,5 +119,11 @@ namespace Anonimizator.WPF.ViewModel
         {
             People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
+
+        private void Refresh()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
+        }
+        #endregion
     }
 }

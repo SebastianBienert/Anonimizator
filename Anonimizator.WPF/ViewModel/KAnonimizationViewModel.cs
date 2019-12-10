@@ -33,7 +33,8 @@ namespace Anonimizator.WPF.ViewModel
 
             SaveDataCommand = new RelayCommand(SaveData);
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
-            RestartDataCommand = new RelayCommand(ReadData); 
+            RestartDataCommand = new RelayCommand(ReadData);
+            RefreshDataCommand = new RelayCommand(Refresh);
         }
 
         private ObservableCollection<Person> _people;
@@ -93,6 +94,7 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
+        #region Commands
         public ICommand SaveDataCommand
         {
             get;
@@ -106,6 +108,12 @@ namespace Anonimizator.WPF.ViewModel
         }
         
         public ICommand RestartDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RefreshDataCommand
         {
             get;
             private set;
@@ -142,6 +150,11 @@ namespace Anonimizator.WPF.ViewModel
         {
             People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
-       
+
+        private void Refresh()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
+        }
+        #endregion
     }
 }
