@@ -19,27 +19,16 @@ using Microsoft.Win32;
 
 namespace Anonimizator.WPF.ViewModel
 {
-    public class ParameterKCalculateViewModel : ViewModelBase
+    public class ParameterKCalculateViewModel : BaseAnonimizationViewModel
     {
-        private readonly FileService _fileService;
-        private readonly List<List<string>> _cityDictionary;
-        private readonly List<List<string>> _jobDictionary;
         private RecognitionParameterK _recognitionParameterK;
 
-        public ParameterKCalculateViewModel(FileService fileService)
+        public ParameterKCalculateViewModel(FileService fileService) : base(fileService)
         {
-            _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
-            _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
-            _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
-
             _recognitionParameterK = new RecognitionParameterK(People);
             XSelectedColumns = new[] {"Age"};
             CalculateKParameterCommand = new RelayCommand(CalculateKParameter);
-            RestartDataCommand = new RelayCommand(ReadData);
-            LoadDataCommand = new RelayCommand(LoadData);
-            RefreshDataCommand = new RelayCommand(Refresh);
             CalculateKParameter();
         }
 
@@ -51,18 +40,6 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _xColumnNames = value;
                 RaisePropertyChanged(nameof(XColumnNames));
-            }
-        }
-
-        private ObservableCollection<Person> _people;
-        public ObservableCollection<Person> People
-        {
-            get => _people;
-            set
-            {
-                _people = value;
-                _recognitionParameterK = new RecognitionParameterK(_people);
-                RaisePropertyChanged(nameof(People));
             }
         }
 
@@ -114,46 +91,10 @@ namespace Anonimizator.WPF.ViewModel
             private set;
         }
 
-        public ICommand RestartDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand LoadDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RefreshDataCommand
-        {
-            get;
-            private set;
-        }
-
         private void CalculateKParameter()
         {
             var pid = GetPID(XSelectedColumns);
             ParameterK = _recognitionParameterK.CalculateParameterK(pid);
-        }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
-        }
-
-        private void LoadData()
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-            dialog.ShowDialog();
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
-        }
-
-        private void Refresh()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
         }
         #endregion
     }

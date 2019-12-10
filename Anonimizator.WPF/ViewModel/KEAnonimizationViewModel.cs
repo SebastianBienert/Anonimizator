@@ -18,24 +18,12 @@ using Microsoft.Win32;
 
 namespace Anonimizator.WPF.ViewModel
 {
-    public class KEAnonimizationViewModel : ViewModelBase
+    public class KEAnonimizationViewModel : BaseAnonimizationViewModel
     {
-        private readonly FileService _fileService;
-        private readonly List<List<string>> _cityDictionary;
-        private readonly List<List<string>> _jobDictionary;
-
-        public KEAnonimizationViewModel(FileService fileService)
+        public KEAnonimizationViewModel(FileService fileService) : base(fileService)
         {
-            _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
-            _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
-            _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
-
             KAnonimizationCommand = new RelayCommand(KAnonimizationAlgorithm);
-            SaveDataCommand = new RelayCommand(SaveData);
-            RestartDataCommand = new RelayCommand(ReadData);
-            RefreshDataCommand = new RelayCommand(Refresh);
         }
 
         private ObservableCollection<string> _xColumnNames;
@@ -46,17 +34,6 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _xColumnNames = value;
                 RaisePropertyChanged(nameof(XColumnNames));
-            }
-        }
-
-        private ObservableCollection<Person> _people;
-        public ObservableCollection<Person> People
-        {
-            get => _people;
-            set
-            {
-                _people = value;
-                RaisePropertyChanged(nameof(People));
             }
         }
 
@@ -119,60 +96,12 @@ namespace Anonimizator.WPF.ViewModel
             private set;
         }
 
-        public ICommand SaveDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RestartDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RefreshDataCommand
-        {
-            get;
-            private set;
-        }
-
         private void KAnonimizationAlgorithm()
         {
             var pid = GetPID(XSelectedColumns);
             var _anonimizationAlgortihm = new KEAnonimization(ParameterK, ParameterE, _jobDictionary, _cityDictionary, pid, p => p.Age);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
             _fileService.SavePeopleDataInTemporaryFile(People);
-        }
-
-        private void SaveData()
-        {
-            var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
-            _fileService.SavePeopleData(People, selectedFileName);
-        }
-
-        private string GetSelectedFileName(string defaultFileName)
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                return sfd.FileName;
-            }
-
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileName);
-        }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
-        }
-
-        private void Refresh()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
         }
         #endregion
     }

@@ -16,30 +16,22 @@ using Microsoft.Win32;
 
 namespace Anonimizator.WPF.ViewModel
 {
-    public class AnalysisAnonimizationViewModel : ViewModelBase
+    public class AnalysisAnonimizationViewModel : BaseAnonimizationViewModel
     {
-        private readonly FileService _fileService;
-
-        public AnalysisAnonimizationViewModel(FileService fileService)
+        public AnalysisAnonimizationViewModel(FileService fileService) : base(fileService)
         {
-            _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = "City";
             CalculatedMetrics = new Dictionary<string, int>();
             MethodCalculateAnonimizationMeasure = AnonimizationMeasure.NumberIdenticalElements;
-
-            SaveDataCommand = new RelayCommand(SaveData);
-            RestartDataCommand = new RelayCommand(ReadData);
-            LoadDataCommand = new RelayCommand(LoadData);
-            RefreshDataCommand = new RelayCommand(Refresh);
             CalculateMeasure();
         }
 
+
         private ObservableCollection<Person> _people;
-        public ObservableCollection<Person> People
+        public override ObservableCollection<Person> People
         {
-            get { return _people; }
+            get => _people;
             set
             {
                 _people = value;
@@ -111,69 +103,5 @@ namespace Anonimizator.WPF.ViewModel
 
             return null;
         }
-
-        #region Commands
-        public ICommand SaveDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RestartDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand LoadDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RefreshDataCommand
-        {
-            get;
-            private set;
-        }
-
-        private void SaveData()
-        {
-            var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
-            _fileService.SavePeopleData(People, selectedFileName);
-        }
-
-        private string GetSelectedFileName(string defaultFileName)
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                return sfd.FileName;
-            }
-
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileName);
-        }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
-        }
-
-        private void LoadData()
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-            dialog.ShowDialog();
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
-        }
-
-        private void Refresh()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
-        }
-        #endregion
     }
 }

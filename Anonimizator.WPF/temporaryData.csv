@@ -1,60 +1,60 @@
-M;Inzynier;Czestochowa;Jakub;*;15
-M;Programista;Glubczyce;Edward;*;45
-M;Programista;Wroclaw;Szymon;*;19
-K;Programista;Wyszkow;Beata;*;24
-K;Informatyk;Wyszkow;Beata;*;32
-M;Inzynier;Katowice;Adam;Kowa...;11
-M;Malarz;Rybnik;Mikolaj;Kowa...;30
-K;Tancerz;Olawa;Zofia;Kowa...;43
-M;Muzyk;Swidnica;Dawid;Kowa...;60
-M;Programista;Siedlce;Szymon;Kowa...;19
-M;Programista;Lubin;Adam;Kowa...;11
-M;Muzyk;Gdansk;Wojciech;Kowa...;28
-M;Programista;Sopot;Wojciech;Kowa...;17
-K;Tancerz;Glubczyce;Joanna;Kowa...;39
-M;Straznik wiezienny;Gdansk;Daniel;Kowa...;22
-M;Policjant;Sopot;Jozef;Kowa...;23
-K;Historyk;Glubczyce;Kamila;Kowa...;25
-M;Polonista;Gdansk;Andrzej;Kowa...;25
-M;Polonista;Sopot;Jan;Kowa...;56
-K;Historyk;Warszawa;Kamila;Kowa...;53
-M;Informatyk;Lubin;Adam;Kowa...;23
-M;Strazak;Gdansk;Maciej;Kowa...;46
-M;Policjant;Rybnik;Wiktor;Kowa...;23
-K;Policjant;Olawa;Karolina;Kowa...;31
-M;Polonista;Swidnica;Kamil;Kowa...;24
-M;Programista;Swidnica;Roman;Kowa...;30
-M;Inzynier;Wroclaw;Kamil;Mali...;15
-M;Programista;Zabrze;Kamil;Mali...;32
-M;Muzyk;Puck;Damian;Mali...;26
-M;Tancerz;Lipsko;Grzegorz;Mali...;10
-M;Straznik wiezienny;Puck;Kamil;Mali...;24
-M;Polonista;Lipsko;Andrzej;Mali...;26
-M;Polonista;Warszawa;Adam;Mali...;43
-M;Polonista;Warszawa;Andrzej;Mali...;23
-M;Informatyk;Zabrze;Krystian;Mali...;24
-M;Inzynier;Wroclaw;Jan;Nowa...;15
-M;Programista;Wroclaw;Filip;Nowa...;22
-M;Muzyk;Wroclaw;Damian;Nowa...;53
-M;Muzyk;Rybnik;Wiktor;Nowa...;90
-M;Muzyk;Olawa;Krystian;Nowa...;37
-M;Muzyk;Ciechanow;Roman;Nowa...;22
-K;Programista;Warszawa;Zofia;Nowa...;30
-K;Matematyk;Warszawa;Joanna;Nowa...;47
-K;Matematyk;Warszawa;Natalia;Nowa...;54
-M;Muzyk;Olawa;Krystian;Nowa...;26
-M;Matematyk;Ciechanow;Michal;Nowa...;45
-M;Historyk;Wroclaw;Dominik;Nowa...;43
-M;Programista;Wroclaw;Kamil;Nowa...;32
-M;Muzyk;Wroclaw;Kacper;Szymansk...;50
-M;Muzyk;Wroclaw;Kacper;Szymansk...;51
-K;Muzyk;Lubin;Joanna;Szymansk...;55
-K;Architekt;Lubin;Marta;Szymansk...;36
-M;Strazak;Wroclaw;Jan;Szymansk...;32
-M;Historyk;Wroclaw;Adrian;Szymansk...;33
-M;Programista;Wroclaw;Daniel;Szymansk...;24
-K;Malarz;Olawa;Julia;Wojci...;40
-M;Muzyk;Namyslow;Cezary;Wojci...;23
-K;Programista;Gdynia;Julia;Wojci...;35
-K;Matematyk;Gdynia;Maria;Wojci...;35
-K;Strazak;Olawa;Marta;Wojci...;43
+*;Techniczny;Czestochowa;3 - 5 letters;*;10 - 15
+*;Techniczny;Glubczyce;6 - 8 letters;*;45 - 47
+*;Techniczny;Wroclaw;6 - 8 letters;*;17 - 22
+*;Techniczny;Wyszkow;3 - 5 letters;*;24
+*;Techniczny;Wyszkow;3 - 5 letters;*;31 - 32
+*;Artystyczny;Gdansk;6 - 8 letters;Kowa...;28 - 30
+*;Artystyczny;Rybnik;6 - 8 letters;Kowa...;28 - 30
+*;Artystyczny;Glubczyce;6 - 8 letters;Kowa...;37 - 43
+*;Artystyczny;Olawa;3 - 5 letters;Kowa...;37 - 43
+*;Artystyczny;Swidnica;3 - 5 letters;Kowa...;54 - 90
+*;Nauczyciel;Swidnica;3 - 5 letters;Kowa...;24
+*;Nauczyciel;Glubczyce;6 - 8 letters;Kowa...;25 - 26
+*;Nauczyciel;Gdansk;6 - 8 letters;Kowa...;25 - 26
+*;Nauczyciel;Warszawa;6 - 8 letters;Kowa...;50 - 53
+*;Nauczyciel;Sopot;3 - 5 letters;Kowa...;54 - 90
+*;Sluzba mundurowa;Gdansk;6 - 8 letters;Kowa...;17 - 22
+*;Sluzba mundurowa;Sopot;3 - 5 letters;Kowa...;23
+*;Sluzba mundurowa;Rybnik;6 - 8 letters;Kowa...;23
+*;Sluzba mundurowa;Olawa;6 - 8 letters;Kowa...;31 - 32
+*;Sluzba mundurowa;Gdansk;6 - 8 letters;Kowa...;45 - 47
+*;Techniczny;Katowice;3 - 5 letters;Kowa...;10 - 15
+*;Techniczny;Lubin;3 - 5 letters;Kowa...;10 - 15
+*;Techniczny;Sopot;6 - 8 letters;Kowa...;17 - 22
+*;Techniczny;Siedlce;6 - 8 letters;Kowa...;17 - 22
+*;Techniczny;Lubin;3 - 5 letters;Kowa...;23
+*;Techniczny;Swidnica;3 - 5 letters;Kowa...;28 - 30
+*;Artystyczny;Lipsko;6 - 8 letters;Mali...;10 - 15
+*;Artystyczny;Puck;6 - 8 letters;Mali...;25 - 26
+*;Nauczyciel;Warszawa;6 - 8 letters;Mali...;23
+*;Nauczyciel;Lipsko;6 - 8 letters;Mali...;25 - 26
+*;Nauczyciel;Warszawa;3 - 5 letters;Mali...;37 - 43
+*;Sluzba mundurowa;Puck;3 - 5 letters;Mali...;24
+*;Techniczny;Wroclaw;3 - 5 letters;Mali...;10 - 15
+*;Techniczny;Zabrze;6 - 8 letters;Mali...;24
+*;Techniczny;Zabrze;3 - 5 letters;Mali...;31 - 32
+*;Artystyczny;Ciechanow;3 - 5 letters;Nowa...;17 - 22
+*;Artystyczny;Olawa;6 - 8 letters;Nowa...;25 - 26
+*;Artystyczny;Olawa;6 - 8 letters;Nowa...;37 - 43
+*;Artystyczny;Wroclaw;6 - 8 letters;Nowa...;50 - 53
+*;Artystyczny;Rybnik;6 - 8 letters;Nowa...;54 - 90
+*;Nauczyciel;Wroclaw;6 - 8 letters;Nowa...;37 - 43
+*;Nauczyciel;Ciechanow;6 - 8 letters;Nowa...;45 - 47
+*;Nauczyciel;Warszawa;6 - 8 letters;Nowa...;45 - 47
+*;Nauczyciel;Warszawa;6 - 8 letters;Nowa...;54 - 90
+*;Techniczny;Wroclaw;3 - 5 letters;Nowa...;10 - 15
+*;Techniczny;Wroclaw;3 - 5 letters;Nowa...;17 - 22
+*;Techniczny;Warszawa;3 - 5 letters;Nowa...;28 - 30
+*;Techniczny;Wroclaw;3 - 5 letters;Nowa...;31 - 32
+*;Artystyczny;Wroclaw;6 - 8 letters;Szymansk...;50 - 53
+*;Artystyczny;Wroclaw;6 - 8 letters;Szymansk...;50 - 53
+*;Artystyczny;Lubin;6 - 8 letters;Szymansk...;54 - 90
+*;Nauczyciel;Wroclaw;6 - 8 letters;Szymansk...;33 - 36
+*;Sluzba mundurowa;Wroclaw;3 - 5 letters;Szymansk...;31 - 32
+*;Techniczny;Wroclaw;6 - 8 letters;Szymansk...;24
+*;Techniczny;Lubin;3 - 5 letters;Szymansk...;33 - 36
+*;Artystyczny;Namyslow;6 - 8 letters;Wojci...;23
+*;Artystyczny;Olawa;3 - 5 letters;Wojci...;37 - 43
+*;Nauczyciel;Gdynia;3 - 5 letters;Wojci...;33 - 36
+*;Sluzba mundurowa;Olawa;3 - 5 letters;Wojci...;37 - 43
+*;Techniczny;Gdynia;3 - 5 letters;Wojci...;33 - 36
