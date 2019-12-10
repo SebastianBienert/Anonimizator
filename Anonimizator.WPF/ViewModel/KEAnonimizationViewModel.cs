@@ -115,6 +115,7 @@ namespace Anonimizator.WPF.ViewModel
             var pid = GetPID(XSelectedColumns);
             var _anonimizationAlgortihm = new KEAnonimization(ParameterK, ParameterE, _jobDictionary, _cityDictionary, pid, p => p.Age);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
+            _fileService.SavePeopleDataInTemporaryFile(People);
         }
 
         private void SaveData()

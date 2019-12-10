@@ -115,6 +115,7 @@ namespace Anonimizator.WPF.ViewModel
         {
             _anonimizationAlgortihm = DetermineAlgorithm();
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
+            _fileService.SavePeopleDataInTemporaryFile(People);
         }
 
         private void SaveData()

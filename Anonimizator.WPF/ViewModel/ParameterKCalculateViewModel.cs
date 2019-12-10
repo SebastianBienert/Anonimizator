@@ -38,6 +38,8 @@ namespace Anonimizator.WPF.ViewModel
             XSelectedColumns = new[] {"Age"};
             CalculateKParameterCommand = new RelayCommand(CalculateKParameter);
             RestartDataCommand = new RelayCommand(ReadData);
+            LoadDataCommand = new RelayCommand(LoadData);
+            RefreshDataCommand = new RelayCommand(Refresh);
             CalculateKParameter();
         }
 
@@ -86,29 +88,6 @@ namespace Anonimizator.WPF.ViewModel
             }
         }
 
-        public ICommand CalculateKParameterCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RestartDataCommand
-        {
-            get;
-            private set;
-        }
-
-        private void CalculateKParameter()
-        {
-            var pid = GetPID(XSelectedColumns);
-            ParameterK = _recognitionParameterK.CalculateParameterK(pid);
-        }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
-        }
-
         private Expression<Func<Person, object>>[] GetPID(IList selectedColumns)
         {
             var pid = new List<Expression<Func<Person, object>>>();
@@ -127,5 +106,55 @@ namespace Anonimizator.WPF.ViewModel
 
             return pid.ToArray();
         }
+
+        #region Commands
+        public ICommand CalculateKParameterCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RestartDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand LoadDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RefreshDataCommand
+        {
+            get;
+            private set;
+        }
+
+        private void CalculateKParameter()
+        {
+            var pid = GetPID(XSelectedColumns);
+            ParameterK = _recognitionParameterK.CalculateParameterK(pid);
+        }
+
+        private void ReadData()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
+        }
+
+        private void LoadData()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            dialog.ShowDialog();
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
+        }
+
+        private void Refresh()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
+        }
+        #endregion
     }
 }

@@ -128,6 +128,7 @@ namespace Anonimizator.WPF.ViewModel
             var yColumns = GetPID(YSelectedColumns);
             var _anonimizationAlgortihm = new XYAnonimization(ParameterK, _jobDictionary, _cityDictionary, xColumns, yColumns);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
+            _fileService.SavePeopleDataInTemporaryFile(People);
         }
 
         private void SaveData()

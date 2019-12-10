@@ -145,13 +145,13 @@ namespace Anonimizator.WPF.ViewModel
             var selectedColumn = GetSelectedColumn(SelectedAttributeColumn);
             var _anonimizationAlgortihm = new AKAnonimization(ParameterK, ParameterAlpha, AttributeValue, _jobDictionary, _cityDictionary, selectedColumn, pid);
             People = new ObservableCollection<Person>(_anonimizationAlgortihm.GetAnonymizedData(People));
+            _fileService.SavePeopleDataInTemporaryFile(People);
         }
 
         private void SaveData()
         {
             var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
             _fileService.SavePeopleData(People, selectedFileName);
-
         }
 
         private string GetSelectedFileName(string defaultFileName)

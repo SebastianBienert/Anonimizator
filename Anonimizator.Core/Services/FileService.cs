@@ -72,5 +72,21 @@ namespace Anonimizator.Core.Services
             }
             return column;
         }
+
+        public List<Person> GetPeopleDataFromTemporaryFile()
+        {
+            return GetPeopleData(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, ConstantStrings.TEMPORARY_DATA));
+        }
+
+        public void SavePeopleDataInTemporaryFile(IEnumerable<Person> people)
+        {
+            using (var textWriter = File.CreateText(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, ConstantStrings.TEMPORARY_DATA)))
+            {
+                foreach (var line in Utils.ToCsv(people))
+                {
+                    textWriter.WriteLine(line);
+                }
+            }
+        }
     }
 }

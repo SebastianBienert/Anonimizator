@@ -49,9 +49,17 @@
                 IsEnabled="False"
                 Margin="0,5,0,0"/>
 
+            <Button Command="{Binding LoadDataCommand}"
+                    Content="Załaduj dane"
+                    Margin="5,20,0,0"/>
+
             <Button Command="{Binding RestartDataCommand}"
                     Content="Przywróć dane"
-                    Margin="5,10,0,0"/>
+                    Margin="5,5,0,0"/>
+
+            <Button Command="{Binding RefreshDataCommand}"
+                    Content="Przywróć dane z ostatniej anonimizacji"
+                    Margin="5,5,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

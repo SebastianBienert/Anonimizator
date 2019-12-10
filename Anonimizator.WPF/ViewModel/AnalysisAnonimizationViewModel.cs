@@ -32,6 +32,7 @@ namespace Anonimizator.WPF.ViewModel
             SaveDataCommand = new RelayCommand(SaveData);
             RestartDataCommand = new RelayCommand(ReadData);
             LoadDataCommand = new RelayCommand(LoadData);
+            RefreshDataCommand = new RelayCommand(Refresh);
             CalculateMeasure();
         }
 
@@ -59,57 +60,6 @@ namespace Anonimizator.WPF.ViewModel
                 RaisePropertyChanged(nameof(SelectedColumnName));
                 CalculateMeasure();
             }
-        }
-
-        public ICommand SaveDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RestartDataCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand LoadDataCommand
-        {
-            get;
-            private set;
-        }
-
-        private void SaveData()
-        {
-            var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
-            _fileService.SavePeopleData(People, selectedFileName);
-        }
-
-        private string GetSelectedFileName(string defaultFileName)
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
-            };
-            if (sfd.ShowDialog() == true)
-            {
-                return sfd.FileName;
-            }
-
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileName);
-        }
-
-        private void ReadData()
-        {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
-        }
-
-        private void LoadData()
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-            dialog.ShowDialog();
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
         }
 
         private Dictionary<string, int> _calculatedMetrics;
@@ -161,5 +111,69 @@ namespace Anonimizator.WPF.ViewModel
 
             return null;
         }
+
+        #region Commands
+        public ICommand SaveDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RestartDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand LoadDataCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RefreshDataCommand
+        {
+            get;
+            private set;
+        }
+
+        private void SaveData()
+        {
+            var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
+            _fileService.SavePeopleData(People, selectedFileName);
+        }
+
+        private string GetSelectedFileName(string defaultFileName)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Text Files (*.csv)|*.csv|All files (*.*)|*.*",
+            };
+            if (sfd.ShowDialog() == true)
+            {
+                return sfd.FileName;
+            }
+
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileName);
+        }
+
+        private void ReadData()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
+        }
+
+        private void LoadData()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            dialog.ShowDialog();
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
+        }
+
+        private void Refresh()
+        {
+            People = new ObservableCollection<Person>(_fileService.GetPeopleDataFromTemporaryFile());
+        }
+        #endregion
     }
 }
