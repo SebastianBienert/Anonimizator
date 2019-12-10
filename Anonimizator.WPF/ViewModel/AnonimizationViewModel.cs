@@ -19,7 +19,7 @@ namespace Anonimizator.WPF.ViewModel
         public AnonimizationViewModel(FileService fileService)
         {
             _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = ColumnNames.First();
 
@@ -108,7 +108,7 @@ namespace Anonimizator.WPF.ViewModel
 
         private void ReadData()
         {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Anonimzator.Tests.AlgorithmTests
         public XYAnonimizationTests()
         {
             var fileService = new FileService();
-            _peopleFromFile = fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA);
+            _peopleFromFile = fileService.GetPeopleData();
             _cityDictionary = fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
         }

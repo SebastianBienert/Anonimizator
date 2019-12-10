@@ -9,10 +9,15 @@ namespace Anonimizator.Core.Services
 {
     public class FileService
     {
+        public List<Person> GetPeopleData()
+        {
+            return GetPeopleData(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, ConstantStrings.FILE_WITH_DATA));
+        }
+
         public List<Person> GetPeopleData(string path)
         {
             var people = new List<Person>();
-            using (var reader = new StreamReader(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, path)))
+            using (var reader = new StreamReader(path))
             {
                 while (!reader.EndOfStream)
                 {

@@ -23,7 +23,7 @@ namespace Anonimizator.WPF.ViewModel
         public AnalysisAnonimizationViewModel(FileService fileService)
         {
             _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             ColumnNames = new ObservableCollection<string>(typeof(Person).GetProperties().Select(p => p.Name));
             _selectedColumnName = "City";
             CalculatedMetrics = new Dictionary<string, int>();
@@ -31,6 +31,7 @@ namespace Anonimizator.WPF.ViewModel
 
             SaveDataCommand = new RelayCommand(SaveData);
             RestartDataCommand = new RelayCommand(ReadData);
+            LoadDataCommand = new RelayCommand(LoadData);
             CalculateMeasure();
         }
 
@@ -42,6 +43,7 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _people = value;
                 RaisePropertyChanged(nameof(People));
+                CalculateMeasure();
             }
         }
 
@@ -71,6 +73,12 @@ namespace Anonimizator.WPF.ViewModel
             private set;
         }
 
+        public ICommand LoadDataCommand
+        {
+            get;
+            private set;
+        }
+
         private void SaveData()
         {
             var selectedFileName = GetSelectedFileName(ConstantStrings.DEFAULT_FILE_NAME);
@@ -93,9 +101,17 @@ namespace Anonimizator.WPF.ViewModel
 
         private void ReadData()
         {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
-        
+
+        private void LoadData()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            dialog.ShowDialog();
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData(dialog.FileName));
+        }
+
         private Dictionary<string, int> _calculatedMetrics;
         public Dictionary<string, int> CalculatedMetrics
         {
@@ -115,6 +131,7 @@ namespace Anonimizator.WPF.ViewModel
             {
                 _methodCalculateAnonimizationMeasure = value;
                 RaisePropertyChanged(nameof(MethodCalculateAnonimizationMeasure));
+                CalculateMeasure();
             }
         }
 

@@ -29,7 +29,7 @@ namespace Anonimizator.WPF.ViewModel
         public ParameterKCalculateViewModel(FileService fileService)
         {
             _fileService = fileService;
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
             XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
             _cityDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_CITY_GENERALIZATION_DICTIONARY);
             _jobDictionary = _fileService.GetDictionaryData(ConstantStrings.FILE_WITH_JOB_GENERALIZATION_DICTIONARY);
@@ -106,7 +106,7 @@ namespace Anonimizator.WPF.ViewModel
 
         private void ReadData()
         {
-            People = new ObservableCollection<Person>(_fileService.GetPeopleData(ConstantStrings.FILE_WITH_DATA));
+            People = new ObservableCollection<Person>(_fileService.GetPeopleData());
         }
 
         private Expression<Func<Person, object>>[] GetPID(IList selectedColumns)

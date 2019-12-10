@@ -29,6 +29,10 @@
                   ItemsSource="{Binding People, Mode=OneWay}"/>
 
         <StackPanel Grid.Row="0" Grid.Column ="5" Grid.ColumnSpan="2">
+            <Button Command="{Binding LoadDataCommand}"
+                    Content="Załaduj dane"
+                    Margin="5,5,0,0"/>
+
             <Button Command="{Binding RestartDataCommand}"
                     Content="Przywróć dane"
                     Margin="5,5,0,0"/>
