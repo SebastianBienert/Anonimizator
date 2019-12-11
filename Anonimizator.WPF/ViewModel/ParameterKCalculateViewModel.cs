@@ -21,12 +21,9 @@ namespace Anonimizator.WPF.ViewModel
 {
     public class ParameterKCalculateViewModel : BaseAnonimizationViewModel
     {
-        private RecognitionParameterK _recognitionParameterK;
-
         public ParameterKCalculateViewModel(FileService fileService) : base(fileService)
         {
             XColumnNames = new ObservableCollection<string> { "Age", "City", "FirstName", "Surname", "Job", "Gender" };
-            _recognitionParameterK = new RecognitionParameterK(People);
             XSelectedColumns = new[] {"Age"};
             CalculateKParameterCommand = new RelayCommand(CalculateKParameter);
             CalculateKParameter();
@@ -93,8 +90,9 @@ namespace Anonimizator.WPF.ViewModel
 
         private void CalculateKParameter()
         {
+            var recognitionParameterK = new RecognitionParameterK(People);
             var pid = GetPID(XSelectedColumns);
-            ParameterK = _recognitionParameterK.CalculateParameterK(pid);
+            ParameterK = recognitionParameterK.CalculateParameterK(pid);
         }
         #endregion
     }
