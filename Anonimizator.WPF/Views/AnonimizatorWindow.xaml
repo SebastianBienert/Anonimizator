@@ -38,6 +38,8 @@
         <TabItem Header="Generator danych">
             <views:WorkPanel />
         </TabItem>
-        
+        <TabItem Header="Rozpoznawanie parametru K">
+            <views:PIDKPrediction />
+        </TabItem>
     </TabControl>
 </Window>

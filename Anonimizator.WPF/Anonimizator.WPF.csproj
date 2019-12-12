@@ -83,6 +83,7 @@
     <Compile Include="ViewModel\ParameterKCalculateViewModel.cs" />
     <Compile Include="ViewModel\KEAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PIDKPredictionViewModel.cs" />
     <Compile Include="ViewModel\PIDKAnonimizationViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\WorkPanelViewModel.cs" />
@@ -110,6 +111,9 @@
     </Compile>
     <Compile Include="Views\PIDKAnonimization.xaml.cs">
       <DependentUpon>PIDKAnonimization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PIDKPrediction.xaml.cs">
+      <DependentUpon>PIDKPrediction.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkPanel.xaml.cs">
       <DependentUpon>WorkPanel.xaml</DependentUpon>
@@ -152,6 +156,10 @@
     <Page Include="Views\PIDKAnonimization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PIDKPrediction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\WorkPanel.xaml">
       <Generator>MSBuild:Compile</Generator>

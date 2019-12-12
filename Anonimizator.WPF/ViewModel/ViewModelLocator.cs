@@ -49,6 +49,7 @@ namespace Anonimizator.WPF.ViewModel
             SimpleIoc.Default.Register<AKAnonimizationViewModel>();
             SimpleIoc.Default.Register<AnalysisAnonimizationViewModel>();
             SimpleIoc.Default.Register<ParameterKCalculateViewModel>();
+            SimpleIoc.Default.Register<PIDKPredictionViewModel>();
             
             SimpleIoc.Default.Register<FileService>();
         }
@@ -116,6 +117,11 @@ namespace Anonimizator.WPF.ViewModel
         public ParameterKCalculateViewModel ParameterKCalculateViewModel
         {
             get { return ServiceLocator.Current.GetInstance<ParameterKCalculateViewModel>(); }
+        }
+
+        public PIDKPredictionViewModel PIDKPredictionViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<PIDKPredictionViewModel>(); }
         }
 
         public static void Cleanup()
